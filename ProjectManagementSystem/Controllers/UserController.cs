@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Data.Models;
+using System.Security.Cryptography.X509Certificates;
+using System;
+using System.Numerics;
 
 namespace ProjectManagementSystem.Controllers
 {
@@ -11,13 +14,17 @@ namespace ProjectManagementSystem.Controllers
 
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
         public UserController(
             UserManager<ApplicationUser> _userManager,
-            SignInManager<ApplicationUser> _signInManager)
+            SignInManager<ApplicationUser> _signInManager,
+            RoleManager<IdentityRole> _roleManager)
         {
             userManager = _userManager;
             signInManager = _signInManager;
+            roleManager = _roleManager;
+
         }
 
         [HttpGet]
@@ -50,14 +57,14 @@ namespace ProjectManagementSystem.Controllers
                 UserName = model.UserName,
                 EmailConfirmed = true,
                 Name = model.Name,
-                Surname = model.Surname
+                Surname = model.Surname,
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
-
+               await userManager.AddToRoleAsync(user, Constants.Roles.Specialist.ToString());
                 return RedirectToAction("Login", "User");
             }
 
@@ -117,6 +124,24 @@ namespace ProjectManagementSystem.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> SeedRoles() 
+        {
+            await roleManager.CreateAsync(new IdentityRole(Constants.Roles.Manager.ToString()));
+            await roleManager.CreateAsync(new IdentityRole(Constants.Roles.ProjectManager.ToString()));
+            await roleManager.CreateAsync(new IdentityRole(Constants.Roles.Specialist.ToString()));
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> AssignAdminToManager()
+        {
+            string adminEmail = "admin@pms.bg";
+            var admin = await userManager.FindByEmailAsync(adminEmail);
+
+            await userManager.AddToRoleAsync(admin, Constants.Roles.Manager.ToString());
 
             return RedirectToAction("Index", "Home");
         }
