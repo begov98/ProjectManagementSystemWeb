@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using ProjectManagementSystem.Data.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<body class="homepageimg">
+
+    <div class="row text-center">
+        <div class="cardTransparent">
+            <div class="card-body">
+                <h2 class="font-weight-bold text-black">Welcome to your new Project management system</h2>
+                <p class="text-black"> Please register or login to continue! </p>
+            </div>
+        </div>
+    </div>
+
+    <hr class="hr" />
+
+    @if (!SignInManager.IsSignedIn(User))
+    {
+        <div class="col-md-5 offset-md-5">
+                <a class="btn btn-primary btn-lg" asp-controller="User" asp-action="Register">Register</a>
+                <a class="btn btn-secondary btn-lg" asp-controller="User" asp-action="Login">Login</a>
+        </div>
+
+    }
+
+</body>
