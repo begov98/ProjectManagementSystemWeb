@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProjectManagementSystem.Constants;
 using ProjectManagementSystem.Data.Models;
 using ProjectManagementSystem.Models;
 
@@ -16,6 +18,8 @@ namespace ProjectManagementSystem.Controllers
             roleManager = _roleManager;
             userManager = _userManager;
         }
+
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Index()
         {
             var users = await userManager.Users.ToListAsync();
@@ -32,11 +36,14 @@ namespace ProjectManagementSystem.Controllers
             }
             return View(userRolesViewModel);
         }
+
+        [Authorize(Roles = "Manager")]
         private async Task<List<string>> GetUserRoles(ApplicationUser user)
         {
             return new List<string>(await userManager.GetRolesAsync(user));
         }
 
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Manage(string userId)
         {
             ViewBag.userId = userId;
@@ -67,6 +74,8 @@ namespace ProjectManagementSystem.Controllers
             }
             return View(model);
         }
+
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> Manage(List<ChangeRoleViewModel> model, string userId)
         {

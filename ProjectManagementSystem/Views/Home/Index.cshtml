@@ -11,7 +11,10 @@
         <div class="cardTransparent">
             <div class="card-body">
                 <h2 class="font-weight-bold text-black">Welcome to your new Project management system</h2>
+                @if (!SignInManager.IsSignedIn(User))
+                {
                 <p class="text-black"> Please register or login to continue! </p>
+                }
             </div>
         </div>
     </div>
