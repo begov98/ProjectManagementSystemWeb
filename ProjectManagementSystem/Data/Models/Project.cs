@@ -9,17 +9,18 @@ namespace ProjectManagementSystem.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(25)]
+        [StringLength(50)]
         public string Name { get; set; }
 
         [Required]
         [StringLength(5000)]
         public string Description { get; set; } = "Add the task description here...";
 
+        [Required]
+        public string Picture { get; set; }
 
         public string ProjectManagerId { get; set; }
 
-        [Required]
         [ForeignKey(nameof(ProjectManagerId))]
         public ApplicationUser ProjectManager { get; set; }
 

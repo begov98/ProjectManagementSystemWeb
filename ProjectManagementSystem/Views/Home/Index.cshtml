@@ -28,6 +28,12 @@
                 <a class="btn btn-secondary btn-lg" asp-controller="User" asp-action="Login">Login</a>
         </div>
 
+    } else {
+        <div class="col-md-5 offset-md-5">
+            <a class="btn btn-primary btn-lg" asp-controller="Projects" asp-action="Add">Add project</a>
+            <a class="btn btn-secondary btn-lg" asp-controller="Projects" asp-action="All">All projects</a>
+        </div>
     }
+
 
 </body>
