@@ -48,6 +48,7 @@ namespace ProjectManagementSystem.Services
             {
                 Name = p.Name,
                 Description = p.Description,
+                ProjectManager = p?.ProjectManager?.Name,
                 ProjectManagerId = p.ProjectManagerId,
                 Picture = p.Picture
             });
@@ -58,16 +59,6 @@ namespace ProjectManagementSystem.Services
         {
             return await userManager.GetUsersInRoleAsync("ProjectManager");
 
-            //var listOfPMs = await userManager.GetUsersInRoleAsync("Project manager");
-
-            //var pMNames = new List<string>();
-
-            //foreach (var PMName in listOfPMs)
-            //{
-            //    pMNames.Add(PMName.Name);
-            //}
-
-            //return pMNames;
         }
     }
 }

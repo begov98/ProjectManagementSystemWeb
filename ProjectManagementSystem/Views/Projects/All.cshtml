@@ -1,42 +1,10 @@
-﻿@model IEnumerable<ProjectViewModel>
+﻿@using Microsoft.AspNetCore.Identity
+@using ProjectManagementSystem.Data.Models
+@model IEnumerable<ProjectViewModel>
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewBag.Title = "All Projects";
 }
-
-@*<section class="wrapper">
-    <div class="container">
-        <div class="row">
-            <div class="col text-center mb-5">
-                <h1 class="display-4">@ViewBag.Title</h1>
-            </div>
-        </div>
-        <div class="row">
-             @foreach (var project in Model)
-             {
-            <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
-                    <img class="card-img d-none" src="@project.Picture">
-                    <div class="card-img-overlay d-flex flex-column">
-                        <div class="card-body">
-                            <h4 class="card-title mt-0 "><a class="text-white" herf="#">@project.Name</a></h4>
-                                <small class="card-meta mb-2">@project.Description</small>
-                        </div>
-                        <div class="card-footer">
-                            <div class="media">
-                                <img class="mr-3 rounded-circle" src="../wwwroot/Images/exampleAvatrar.png" alt="Admin's profile picture">
-                                <div class="media-body">
-                                    <h6 class="my-0 text-white d-block">@project.ProjectManagerId</h6>
-                                    <small>Project manager</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-             }
-
-        </div>
-
-    </div>
-</section>*@
 <section class="wrapper">
     <div class="container">
         <div class="row">
@@ -59,10 +27,10 @@
                         </div>
                         <div class="card-footer">
                             <div class="media">
-                                    <img class="mr-3 rounded-circle" src="https://images.squarespace-cdn.com/content/v1/5c9ff9b2ca525b3055972283/1599422147535-NF2Q2ITDDNDYXWQDJD3J/JohnnyBravo.png" alt="Generic placeholder image" style="max-width:50px">
+                                    <img class="mr-3 rounded-circle" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.FindByIdAsync(project.ProjectManagerId).Result.ProfilePicture))" style="max-width:50px">
                                 <div class="media-body">
-                                    <h6 class="my-0 text-white d-block">Admin</h6>
-                                    <small>Project manager</small>
+                                        <h6 class="my-0 text-white d-block">@UserManager.FindByIdAsync(project.ProjectManagerId).Result.Name @UserManager.FindByIdAsync(project.ProjectManagerId).Result.Surname</h6>
+                                        <small>Project manager</small>
                                 </div>
                             </div>
                         </div>
