@@ -27,7 +27,10 @@ namespace ProjectManagementSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var model = new AddProjectViewModel();
+            var model = new AddProjectViewModel()
+            {
+                ProjectManagers = await projectService.GetProjectManagersAsync()
+            };
 
             return View(model);
         }

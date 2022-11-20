@@ -20,10 +20,20 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="mb-3">
+                <label asp-for="@Model.ProjectManagerId" class="form-label">Project manager</label>
+                <select asp-for="@Model.ProjectManagerId" class="form-control">
+                    @foreach (var projectManager in Model.ProjectManagers)
+                    {
+                        <option value="@projectManager.Id">@projectManager.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="ProjectManagerId" class="text-danger"></span>
+            </div>
+@*            <div class="mb-3">
                 <label asp-for="@Model.ProjectManagerId" class="form-label">Project manager ID </label>
                 <input asp-for="@Model.ProjectManagerId" class="form-control" aria-required="true" />
                 <span asp-validation-for="ProjectManagerId" class="text-danger"></span>
-            </div>
+            </div>*@
           <div class="mb-3">
             <label asp-for="@Model.Picture" class="form-label">Picture URL</label>
             <input asp-for="@Model.Picture" class="form-control" aria-required="true" />

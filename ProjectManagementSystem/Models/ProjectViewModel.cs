@@ -11,6 +11,8 @@ namespace ProjectManagementSystem.Models
 
         public string Description { get; set; }
 
+        public string ProjectManager { get; set; }
+
         public string ProjectManagerId { get; set; }
 
         public string Picture { get; set; }

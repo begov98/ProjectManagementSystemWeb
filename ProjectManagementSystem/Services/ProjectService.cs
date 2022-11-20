@@ -12,14 +12,18 @@ namespace ProjectManagementSystem.Services
     public class ProjectService : IProjectService
     {
         private readonly ApplicationDbContext context;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public ProjectService(ApplicationDbContext _context)
+        public ProjectService(ApplicationDbContext _context, UserManager<ApplicationUser> _userManager)
         {
             context = _context;
+            userManager = _userManager;
         }
 
         public async Task AddProjectAsync(AddProjectViewModel model)
         {
+
+
 
             var entity = new Project()
             {
@@ -48,6 +52,22 @@ namespace ProjectManagementSystem.Services
                 Picture = p.Picture
             });
 
+        }
+
+        public async Task<IEnumerable<ApplicationUser>> GetProjectManagersAsync()
+        {
+            return await userManager.GetUsersInRoleAsync("ProjectManager");
+
+            //var listOfPMs = await userManager.GetUsersInRoleAsync("Project manager");
+
+            //var pMNames = new List<string>();
+
+            //foreach (var PMName in listOfPMs)
+            //{
+            //    pMNames.Add(PMName.Name);
+            //}
+
+            //return pMNames;
         }
     }
 }

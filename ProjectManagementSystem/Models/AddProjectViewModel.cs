@@ -10,6 +10,8 @@ namespace ProjectManagementSystem.Models
 
         public string Description { get; set; }
 
+        public IEnumerable<ApplicationUser> ProjectManagers { get; set; } = new List<ApplicationUser>();
+
         public string ProjectManagerId { get; set; }
 
         public string Picture { get; set; }
