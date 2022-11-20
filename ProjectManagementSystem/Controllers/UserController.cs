@@ -51,13 +51,14 @@ namespace ProjectManagementSystem.Controllers
                 return View(model);
             }
 
+
             var user = new ApplicationUser()
             {
                 Email = model.Email,
                 UserName = model.UserName,
                 EmailConfirmed = true,
                 Name = model.Name,
-                Surname = model.Surname,
+                Surname = model.Surname
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
