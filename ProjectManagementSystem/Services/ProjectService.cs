@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
 using ProjectManagementSystem.Contracts;
@@ -46,6 +47,7 @@ namespace ProjectManagementSystem.Services
 
             return entities.Select(p => new ProjectViewModel()
             {
+                Id = p.Id,
                 Name = p.Name,
                 Description = p.Description,
                 ProjectManager = p?.ProjectManager?.Name,
@@ -59,6 +61,24 @@ namespace ProjectManagementSystem.Services
         {
             return await userManager.GetUsersInRoleAsync("ProjectManager");
 
+        }
+
+        public async Task Details(int projectId)
+        {
+            if (projectId == null)
+            {
+                throw new ArgumentException("Project not found... :("); //TODO: To implement some error message/page!
+
+            }
+
+            var project = await context.Projects
+                .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            if (project == null)
+            {
+                throw new ArgumentException("Project not found... :("); //TODO: To implement some error message/page!
+
+            }
         }
     }
 }

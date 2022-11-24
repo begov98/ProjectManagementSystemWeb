@@ -10,5 +10,7 @@ namespace ProjectManagementSystem.Contracts
         Task<IEnumerable<ApplicationUser>> GetProjectManagersAsync();
 
         Task AddProjectAsync(AddProjectViewModel model);
+
+        Task Details(int projectId);
     }
 }

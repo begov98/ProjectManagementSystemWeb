@@ -60,6 +60,11 @@ namespace ProjectManagementSystem.Controllers
 
         }
 
+        public async Task<IActionResult> Details (int id)
+        {
+            return View("Details", id);
+        }
+
 
 
     }
