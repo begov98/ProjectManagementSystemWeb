@@ -60,9 +60,11 @@ namespace ProjectManagementSystem.Controllers
 
         }
 
-        public async Task<IActionResult> Details (int id)
+        public async Task<IActionResult> Details (int projectId)
         {
-            return View("Details", id);
+            var model = await projectService.GetProjectAsync(projectId);
+            return View(model);
+            //return View("Details", projectId);
         }
 
 

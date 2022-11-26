@@ -63,13 +63,9 @@ namespace ProjectManagementSystem.Services
 
         }
 
-        public async Task Details(int projectId)
+        public async Task<ProjectViewModel> GetProjectAsync(int projectId)
         {
-            if (projectId == null)
-            {
-                throw new ArgumentException("Project not found... :("); //TODO: To implement some error message/page!
 
-            }
 
             var project = await context.Projects
                 .FirstOrDefaultAsync(p => p.Id == projectId);
@@ -79,6 +75,17 @@ namespace ProjectManagementSystem.Services
                 throw new ArgumentException("Project not found... :("); //TODO: To implement some error message/page!
 
             }
+
+            return new ProjectViewModel()
+            {
+                Id = project.Id,
+                Name = project.Name,
+                Description = project.Description,
+                ProjectManager = project?.ProjectManager?.Name,
+                Picture = project.Picture
+            };
+
+
         }
     }
 }
