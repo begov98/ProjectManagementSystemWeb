@@ -42,6 +42,7 @@ namespace ProjectManagementSystem.Services
         public async Task<IEnumerable<ProjectViewModel>> GetAllAsync()
         {
             var entities = await context.Projects
+                .Include(p => p.ProjectManager)
                 .ToListAsync();
 
 
