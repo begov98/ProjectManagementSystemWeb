@@ -9,6 +9,9 @@ namespace ProjectManagementSystem.Data.Models
         public int Id { get; set; }
 
         [Required]
+        public string Name { get; set; }
+
+        [Required]
         [StringLength(5000)]
         public string Description { get; set; } = "Add the task description here...";
 
@@ -19,6 +22,8 @@ namespace ProjectManagementSystem.Data.Models
         [Required]
         [ForeignKey(nameof(StatusId))]
         public Status Status { get; set; }
+
+        public int ProjectId { get; set; }
 
         public List<ApplicationUserSubtask> ApplicationUsersSubtasks { get; set; } = new List<ApplicationUserSubtask>();
     }

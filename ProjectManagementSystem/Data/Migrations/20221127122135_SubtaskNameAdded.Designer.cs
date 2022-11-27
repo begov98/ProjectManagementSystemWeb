@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectManagementSystem.Data;
 
@@ -11,9 +12,10 @@ using ProjectManagementSystem.Data;
 namespace ProjectManagementSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221127122135_SubtaskNameAdded")]
+    partial class SubtaskNameAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -254,7 +256,7 @@ namespace ProjectManagementSystem.Data.Migrations
 
                     b.HasIndex("SubtaskId");
 
-                    b.ToTable("ApplicationUserSubtask", (string)null);
+                    b.ToTable("ApplicationUserSubtask");
                 });
 
             modelBuilder.Entity("ProjectManagementSystem.Data.Models.Comment", b =>
@@ -283,7 +285,7 @@ namespace ProjectManagementSystem.Data.Migrations
 
                     b.HasIndex("SubtaskId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("ProjectManagementSystem.Data.Models.Project", b =>
@@ -316,7 +318,7 @@ namespace ProjectManagementSystem.Data.Migrations
 
                     b.HasIndex("ProjectManagerId");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("ProjectManagementSystem.Data.Models.Status", b =>
@@ -334,7 +336,7 @@ namespace ProjectManagementSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Statuses", (string)null);
+                    b.ToTable("Statuses");
 
                     b.HasData(
                         new
@@ -393,7 +395,7 @@ namespace ProjectManagementSystem.Data.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Subtasks", (string)null);
+                    b.ToTable("Subtasks");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
