@@ -89,9 +89,9 @@ namespace ProjectManagementSystem.Services
 
         public async Task<IEnumerable<SubtaskViewModel>>GetTasksAsync()
         {
-            var entities = await context.Subtasks.ToListAsync();
-
-
+            var entities = await context.Subtasks
+                .Include(t => t.Status)
+                .ToListAsync();
 
             return entities.Select(t => new SubtaskViewModel()
             {
