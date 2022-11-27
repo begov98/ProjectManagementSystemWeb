@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
@@ -6,7 +7,7 @@ using ProjectManagementSystem.Contracts;
 using ProjectManagementSystem.Data;
 using ProjectManagementSystem.Data.Models;
 using ProjectManagementSystem.Models;
-
+using Project = ProjectManagementSystem.Data.Models.Project;
 
 namespace ProjectManagementSystem.Services
 {
@@ -84,8 +85,26 @@ namespace ProjectManagementSystem.Services
                 ProjectManager = project?.ProjectManager?.Name,
                 Picture = project.Picture
             };
-
-
         }
+
+        public async Task<IEnumerable<SubtaskViewModel>>GetTasksAsync()
+        {
+            var entities = await context.Subtasks.ToListAsync();
+
+
+
+            return entities.Select(t => new SubtaskViewModel()
+            {
+                Name = t.Name,
+                Description = t.Description,
+                StatusId = t.StatusId,
+                Status = t?.Status?.StatusTitle,
+                ProjectId = t.ProjectId
+            });
+
+            //var subtasks = await context.Subtasks.ToListAsync();
+            //return subtasks;
+        }
+
     }
 }

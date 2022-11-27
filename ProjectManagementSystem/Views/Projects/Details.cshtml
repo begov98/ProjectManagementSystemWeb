@@ -1,8 +1,50 @@
 ﻿@model ProjectViewModel
 @{
-    <h1>@Model.Name</h1>
-    <small>@Model.Description</small>
-    <div class="col-md-5 offset-md-5">
-        <a class="btn btn-primary btn-lg" asp-controller="Subtask" asp-action="Add">Add Subtask</a>
-    </div>
+    ViewBag.Title = Model.Name;
+    var subtasks = ViewBag.Subtasks;
 }
+
+<section class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center mb-5">
+                <h1 class="text-center">@ViewBag.Title</h1>
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var subtask in subtasks)
+            {
+                if (subtask.ProjectId == Model.Id)
+                {
+@*                    <h1>@subtask.Name</h1>
+                    <h1>@subtask.Description</h1>*@
+                <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card text-white card-has-bg click-col" style="background-color:darkseagreen">
+                        <div class="card-img-overlay d-flex flex-column">
+                            <div class="card-body">
+                                <h6>Status:</h6>
+                                <h4 class="card-title mt-0">
+                                    <a class="text-white text-decoration-none" href="#">@subtask.Name</a>
+                                </h4>
+                                <small><i class="text-white-50"></i> @subtask.Description</small>
+                            </div>
+@*                            <div class="card-footer">
+                                <div class="media">
+                                    <img class="mr-3 rounded-circle" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.FindByIdAsync(project.ProjectManagerId).Result.ProfilePicture))" style="max-width:50px">
+                                    <div class="media-body">
+                                        <h6 class="my-0 text-white d-block">@UserManager.FindByIdAsync(project.ProjectManagerId).Result.Name @UserManager.FindByIdAsync(project.ProjectManagerId).Result.Surname</h6>
+                                        <small>Project manager</small>
+                                    </div>
+                                </div>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+
+                }
+            }
+        </div>
+
+    </div>
+</section>

@@ -63,8 +63,10 @@ namespace ProjectManagementSystem.Controllers
         public async Task<IActionResult> Details (int projectId)
         {
             var model = await projectService.GetProjectAsync(projectId);
+            var subtasks = await projectService.GetTasksAsync();
+            ViewBag.Subtasks = subtasks;
             return View(model);
-            //return View("Details", projectId);
+
         }
 
 

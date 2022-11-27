@@ -23,6 +23,7 @@ namespace ProjectManagementSystem.Data.Models
         [ForeignKey(nameof(StatusId))]
         public Status Status { get; set; }
 
+        
         public int ProjectId { get; set; }
 
         public List<ApplicationUserSubtask> ApplicationUsersSubtasks { get; set; } = new List<ApplicationUserSubtask>();
