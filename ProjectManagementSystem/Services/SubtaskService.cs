@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ProjectManagementSystem.Contracts;
 using ProjectManagementSystem.Data;
 using ProjectManagementSystem.Data.Models;
@@ -9,10 +10,12 @@ namespace ProjectManagementSystem.Services
     public class SubtaskService : ISubtaskService
     {
         private readonly ApplicationDbContext context;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public SubtaskService(ApplicationDbContext _context) 
+        public SubtaskService(ApplicationDbContext _context, UserManager<ApplicationUser> _userManager) 
         {
             context = _context;
+
         }
 
 
@@ -31,6 +34,12 @@ namespace ProjectManagementSystem.Services
             await context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<ApplicationUser>> GetEmployeesAsync()
+        {
+                return await userManager.GetUsersInRoleAsync("Specialist");
+
+        }
+
         public async Task<IEnumerable<Project>> GetProjectsAsync()
         {
             return await context.Projects.ToListAsync();
@@ -45,6 +54,7 @@ namespace ProjectManagementSystem.Services
         {
             var subtask = await context.Subtasks
                 .Include(st => st.Status)
+                .Include(st => st.Project)
                 .FirstOrDefaultAsync(s => s.Id == subtaskId);
 
             if (subtask == null)
@@ -59,7 +69,8 @@ namespace ProjectManagementSystem.Services
                 Description = subtask.Description,
                 StatusId = subtask.StatusId,
                 Status = subtask?.Status?.StatusTitle,
-                ProjectId = subtask.ProjectId
+                ProjectId = subtask.ProjectId,
+                Project = subtask?.Project?.Name,
             };
         }
     }

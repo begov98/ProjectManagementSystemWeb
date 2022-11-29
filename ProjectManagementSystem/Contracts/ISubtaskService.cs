@@ -12,5 +12,7 @@ namespace ProjectManagementSystem.Contracts
         Task<IEnumerable<Project>> GetProjectsAsync();
 
         Task<SubtaskViewModel> GetSubtaskAsync(int subtaskId);
+
+        Task<IEnumerable<ApplicationUser>> GetEmployeesAsync();
     }
 }

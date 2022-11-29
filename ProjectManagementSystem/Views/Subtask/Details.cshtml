@@ -4,6 +4,36 @@
 }
 
 <h1>@ViewBag.Title</h1>
-<h2>@Model.Description</h2>
-<h3>Status:</h3>
-<small>@Model.Status</small>
+<h6>Project: @Model.Project</h6>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Status</th>
+            <th></th>
+            <th>Team</th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td>@Model.Description</td>
+                <td>
+                <div class="mb-3">
+                    @*<label asp-for="@Model.StatusId" class="form-label">Status</label>*@
+                    <select asp-for="@Model.StatusId" class="form-control">
+                        @foreach (var status in Model.Statuses)
+                        {
+                            <option value="@status.Id">@status.StatusTitle</option>
+                        }
+                    </select>
+                    <span asp-validation-for="@Model.StatusId" class="text-danger"></span>
+                </div>
+                </td>
+                <td></td>
+                <td>Assigned users....</td>
+                <td>
+                    @*<a class="btn btn-primary" asp-controller="UserRoles" asp-action="Manage" asp-route-userId="@user.UserId">Manage Roles</a>*@
+                </td>
+            </tr>
+    </tbody>
+</table>
