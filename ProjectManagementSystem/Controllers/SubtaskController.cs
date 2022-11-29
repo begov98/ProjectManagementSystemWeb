@@ -46,8 +46,12 @@ namespace ProjectManagementSystem.Controllers
 
                 return View(model);
             }
-
         }
 
+        public async Task<IActionResult> Details (int subtaskId)
+        {
+            var model = await subtaskService.GetSubtaskAsync(subtaskId);
+            return View(model);
+        }
     }
 }

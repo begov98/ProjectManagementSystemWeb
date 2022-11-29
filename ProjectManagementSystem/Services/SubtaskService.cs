@@ -40,5 +40,27 @@ namespace ProjectManagementSystem.Services
         {
             return await context.Statuses.ToListAsync();
         }
+
+        public async Task<SubtaskViewModel> GetSubtaskAsync(int subtaskId)
+        {
+            var subtask = await context.Subtasks
+                .Include(st => st.Status)
+                .FirstOrDefaultAsync(s => s.Id == subtaskId);
+
+            if (subtask == null)
+            {
+                throw new ArgumentException("Project not found... :("); //TODO: To implement some error message/page!
+            }
+
+            return new SubtaskViewModel()
+            {
+                Id = subtask.Id,
+                Name = subtask.Name,
+                Description = subtask.Description,
+                StatusId = subtask.StatusId,
+                Status = subtask?.Status?.StatusTitle,
+                ProjectId = subtask.ProjectId
+            };
+        }
     }
 }

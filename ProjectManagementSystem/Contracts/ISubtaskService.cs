@@ -10,5 +10,7 @@ namespace ProjectManagementSystem.Contracts
         Task<IEnumerable<Status>> GetStatusesAsync();
 
         Task<IEnumerable<Project>> GetProjectsAsync();
+
+        Task<SubtaskViewModel> GetSubtaskAsync(int subtaskId);
     }
 }

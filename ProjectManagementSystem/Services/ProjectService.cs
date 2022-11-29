@@ -96,6 +96,7 @@ namespace ProjectManagementSystem.Services
 
             return entities.Select(t => new SubtaskViewModel()
             {
+                Id = t.Id,
                 Name = t.Name,
                 Description = t.Description,
                 StatusId = t.StatusId,
