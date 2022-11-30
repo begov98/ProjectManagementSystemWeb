@@ -15,9 +15,16 @@ namespace ProjectManagementSystem.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Status> Statuses { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
+            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
             builder.Entity<ApplicationUserSubtask>()
                   .HasKey(x => new { x.ApplicationUserId, x.SubtaskId });
 
@@ -50,14 +57,32 @@ namespace ProjectManagementSystem.Data
                 },
                 new Status()
                 {
-                   Id = 4,
-                   StatusTitle = "Finished"
+                    Id = 4,
+                    StatusTitle = "Finished"
                 },
                 new Status()
                 {
                     Id = 5,
                     StatusTitle = "Cancelled"
                 });
+
+            builder
+                  .Entity<Category>()
+                    .HasData(new Category()
+                    {
+                        Id = 1,
+                        Name = "Fixing existing issue"
+                    },
+                     new Category()
+                     {
+                         Id = 2,
+                         Name = "Improvement"
+                     },
+                    new Category()
+                    {
+                        Id = 3,
+                        Name = "New feature"
+                    });
 
 
             base.OnModelCreating(builder);

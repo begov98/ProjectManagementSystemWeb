@@ -15,7 +15,9 @@ html {
 
 body {
     margin-bottom: 60px;
-    background-color:paleturquoise;
+    background-image: url('../images/DefaultBackground.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .homepageimg {
