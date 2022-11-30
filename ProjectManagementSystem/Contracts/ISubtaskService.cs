@@ -1,4 +1,5 @@
-﻿using ProjectManagementSystem.Data.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using ProjectManagementSystem.Data.Models;
 using ProjectManagementSystem.Models;
 
 namespace ProjectManagementSystem.Contracts
@@ -14,5 +15,9 @@ namespace ProjectManagementSystem.Contracts
         Task<SubtaskViewModel> GetSubtaskAsync(int subtaskId);
 
         Task<IEnumerable<ApplicationUser>> GetEmployeesAsync();
+
+        Task AddSpecialistsToSubtask(string specialistId, int subtaskId);
+
+        
     }
 }

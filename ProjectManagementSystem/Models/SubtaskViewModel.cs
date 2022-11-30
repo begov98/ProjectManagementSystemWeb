@@ -19,6 +19,8 @@ namespace ProjectManagementSystem.Models
             public string Project { get; set; }
 
             public IEnumerable<Status> Statuses { get; set; } = new List<Status>();
-            
+
+            public IEnumerable<ApplicationUser> Specialists { get; set; } = new List<ApplicationUser>();
+
     }
 }

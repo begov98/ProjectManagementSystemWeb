@@ -15,9 +15,9 @@
         </tr>
     </thead>
     <tbody>
-            <tr>
-                <td>@Model.Description</td>
-                <td>
+        <tr>
+            <td>@Model.Description</td>
+            <td>
                 <div class="mb-3">
                     @*<label asp-for="@Model.StatusId" class="form-label">Status</label>*@
                     <select asp-for="@Model.StatusId" class="form-control">
@@ -28,12 +28,17 @@
                     </select>
                     <span asp-validation-for="@Model.StatusId" class="text-danger"></span>
                 </div>
-                </td>
-                <td></td>
-                <td>Assigned users....</td>
-                <td>
-                    @*<a class="btn btn-primary" asp-controller="UserRoles" asp-action="Manage" asp-route-userId="@user.UserId">Manage Roles</a>*@
-                </td>
-            </tr>
+            </td>
+            <td></td>
+            <td>
+                @foreach (var specialist in Model.Specialists)
+                {
+                    <img class="mr-3 rounded-circle" src="data:image/*;base64,@(Convert.ToBase64String(specialist.ProfilePicture))" style="max-width:50px">
+                }
+            </td>
+            <td>
+                <a class="btn btn-primary" asp-controller="Subtask" asp-action="AddSpecialist" asp-route-subtaskId="@Model.Id">Add specialist</a>
+            </td>
+        </tr>
     </tbody>
 </table>

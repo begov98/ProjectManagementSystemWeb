@@ -15,6 +15,7 @@ namespace ProjectManagementSystem.Services
         public SubtaskService(ApplicationDbContext _context, UserManager<ApplicationUser> _userManager) 
         {
             context = _context;
+            userManager = _userManager;
 
         }
 
@@ -40,6 +41,40 @@ namespace ProjectManagementSystem.Services
 
         }
 
+        public async Task AddSpecialistsToSubtask(string specialistId, int subtaskId)
+        {
+            var specialist = await context.Users
+                .Where(sp => sp.Id == specialistId)
+                .Include(u => u.ApplicationUsersSubtasks)
+                .FirstOrDefaultAsync();
+
+            if (specialist == null)
+            {
+                throw new ArgumentException("Invalid specialist ID!");
+            }
+
+            var subtask = await context.Subtasks.FirstOrDefaultAsync(st => st.Id == subtaskId);
+
+            if (subtask == null)
+            {
+                throw new ArgumentException("Invalid subtask ID!");
+            }
+
+            if (!specialist.ApplicationUsersSubtasks.Any(st => st.SubtaskId == subtaskId))
+            {
+                specialist.ApplicationUsersSubtasks.Add(new ApplicationUserSubtask()
+                {
+                    SubtaskId = subtask.Id,
+                    ApplicationUserId = specialist.Id,
+                    Subtask = subtask,
+                    ApplicationUser = specialist
+                });
+            }
+
+            await context.SaveChangesAsync();
+
+        }
+
         public async Task<IEnumerable<Project>> GetProjectsAsync()
         {
             return await context.Projects.ToListAsync();
@@ -55,7 +90,9 @@ namespace ProjectManagementSystem.Services
             var subtask = await context.Subtasks
                 .Include(st => st.Status)
                 .Include(st => st.Project)
+                .Include(st => st.ApplicationUsersSubtasks)
                 .FirstOrDefaultAsync(s => s.Id == subtaskId);
+
 
             if (subtask == null)
             {
@@ -71,6 +108,7 @@ namespace ProjectManagementSystem.Services
                 Status = subtask?.Status?.StatusTitle,
                 ProjectId = subtask.ProjectId,
                 Project = subtask?.Project?.Name,
+                Specialists = subtask?.ApplicationUsersSubtasks?.Select(u => u.ApplicationUser)
             };
         }
     }
