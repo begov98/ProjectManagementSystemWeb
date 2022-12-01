@@ -108,7 +108,7 @@ namespace ProjectManagementSystem.Services
                 Status = subtask?.Status?.StatusTitle,
                 ProjectId = subtask.ProjectId,
                 Project = subtask?.Project?.Name,
-                Specialists = subtask?.ApplicationUsersSubtasks?.Select(u => u.ApplicationUser)
+                SpecialistsIds = subtask?.ApplicationUsersSubtasks?.Select(u => u.ApplicationUserId)
             };
         }
     }

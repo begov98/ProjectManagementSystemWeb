@@ -1,4 +1,7 @@
-﻿@model SubtaskViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@using ProjectManagementSystem.Data.Models
+@model SubtaskViewModel
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewBag.Title = Model.Name;
 }
@@ -31,9 +34,9 @@
             </td>
             <td></td>
             <td>
-                @foreach (var specialist in Model.Specialists)
+                @foreach (var specialist in Model.SpecialistsIds)
                 {
-                    <img class="mr-3 rounded-circle" src="data:image/*;base64,@(Convert.ToBase64String(specialist.ProfilePicture))" style="max-width:50px">
+                    <img class="mr-3 rounded-circle" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.FindByIdAsync(specialist).Result.ProfilePicture))" style="max-width:50px">
                 }
             </td>
             <td>

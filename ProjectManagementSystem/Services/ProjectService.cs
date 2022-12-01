@@ -92,6 +92,7 @@ namespace ProjectManagementSystem.Services
         {
             var entities = await context.Subtasks
                 .Include(t => t.Status)
+                .Include(t => t.ApplicationUsersSubtasks)
                 .ToListAsync();
 
             return entities.Select(t => new SubtaskViewModel()
@@ -101,7 +102,8 @@ namespace ProjectManagementSystem.Services
                 Description = t.Description,
                 StatusId = t.StatusId,
                 Status = t?.Status?.StatusTitle,
-                ProjectId = t.ProjectId
+                ProjectId = t.ProjectId,
+                SpecialistsIds = t?.ApplicationUsersSubtasks?.Select(u => u.ApplicationUserId)
             });
 
             //var subtasks = await context.Subtasks.ToListAsync();
