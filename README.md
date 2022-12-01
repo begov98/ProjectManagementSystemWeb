@@ -7,6 +7,6 @@ This is my first ASP.NET MVC project. It is a simple application for managing pr
 Best regards, 
 P. Begov
 
-## Installation
+## Get started
 
 **To be continue...**
