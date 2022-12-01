@@ -77,12 +77,21 @@ namespace ProjectManagementSystem.Controllers
                     SpecialistName = employee.Name,
                     SpecialistSurname = employee.Surname
                 };
-              
-               //TODO: Add requirements for true/false
+
+                if (employee.ApplicationUsersSubtasks.Any(st => st.SubtaskId == subtaskId))
+                {
+                    specialistViewModel.Selected = true;
+                }
+                else
+                {
+                    specialistViewModel.Selected = false;
+                }
+
                 model.Add(specialistViewModel);
             }
 
             return View(model);
+            
 
 
         }
@@ -90,12 +99,22 @@ namespace ProjectManagementSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSpecialist(List<AddSpecialistViewModel> model,int subtaskId)
         {
+            
             foreach (var specialist in model)
             {
-              await subtaskService.AddSpecialistsToSubtask(specialist.SpecialistId, subtaskId);
+                await subtaskService.RemoveSpecialistsAsync(specialist.SpecialistId, subtaskId);
             }
 
-            return View(model); //TODO: To redirect to the right page... :)
+            foreach (var checkSpecialist in model)
+            {
+                if (checkSpecialist.Selected)
+                {
+                    await subtaskService.AddSpecialistsToSubtask(checkSpecialist.SpecialistId, subtaskId);
+                }
+            }
+
+
+            return RedirectToAction("Details", new { subtaskId = subtaskId});
 
         }
 

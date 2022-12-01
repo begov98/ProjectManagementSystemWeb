@@ -15,6 +15,7 @@
                 <div class="form-check">
                     <input type="hidden" asp-for="@Model[i].SpecialistId" />
                     <input type="hidden" asp-for="@Model[i].SpecialistName" />
+                    <input type="hidden" asp-for="@Model[i].SpecialistSurname" />
                     <input asp-for="@Model[i].Selected" class="form-check-input" />
                     <label class="form-check-label" asp-for="@Model[i].Selected">
                         @Model[i].SpecialistName @Model[i].SpecialistSurname

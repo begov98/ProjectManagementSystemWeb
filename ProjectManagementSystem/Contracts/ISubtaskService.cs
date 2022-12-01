@@ -18,6 +18,8 @@ namespace ProjectManagementSystem.Contracts
 
         Task AddSpecialistsToSubtask(string specialistId, int subtaskId);
 
+        Task RemoveSpecialistsAsync(string specialistId, int subtaskId);
+
         
     }
 }

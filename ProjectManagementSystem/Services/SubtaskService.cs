@@ -111,5 +111,29 @@ namespace ProjectManagementSystem.Services
                 SpecialistsIds = subtask?.ApplicationUsersSubtasks?.Select(u => u.ApplicationUserId)
             };
         }
+
+        public async Task RemoveSpecialistsAsync(string specialistId, int subtaskId)
+        {
+            var subtask = await context.Subtasks
+                .Where(st => st.Id == subtaskId)
+                .Include(st => st.ApplicationUsersSubtasks)
+                .FirstOrDefaultAsync();
+
+            if (subtask == null)
+            {
+                throw new ArgumentException("Invalid user ID!");
+            }
+
+            var specialist = subtask.ApplicationUsersSubtasks.FirstOrDefault(sp => sp.ApplicationUserId == specialistId);
+
+            if (specialist != null)
+            {
+                subtask.ApplicationUsersSubtasks.Remove(specialist);
+
+                await context.SaveChangesAsync();
+            }
+
+
+        }
     }
 }
