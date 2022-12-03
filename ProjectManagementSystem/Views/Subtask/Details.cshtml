@@ -8,11 +8,12 @@
 
 <h1>@ViewBag.Title</h1>
 <h6>Project: @Model.Project</h6>
+<hr/>
+<h3>Status: <a class="StatusLink" asp-controller="Subtask" asp-action="ChangeStatus" asp-route-subtaskId="@Model.Id">@Model.Status</a> </h3>
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Description</th>
-            <th>Status</th>
             <th></th>
             <th>Team</th>
         </tr>
@@ -20,18 +21,6 @@
     <tbody>
         <tr>
             <td>@Model.Description</td>
-            <td>
-                <div class="mb-3">
-                    @*<label asp-for="@Model.StatusId" class="form-label">Status</label>*@
-                    <select asp-for="@Model.StatusId" class="form-control">
-                        @foreach (var status in Model.Statuses)
-                        {
-                            <option value="@status.Id">@status.StatusTitle</option>
-                        }
-                    </select>
-                    <span asp-validation-for="@Model.StatusId" class="text-danger"></span>
-                </div>
-            </td>
             <td></td>
             <td>
                 @foreach (var specialist in Model.SpecialistsIds)

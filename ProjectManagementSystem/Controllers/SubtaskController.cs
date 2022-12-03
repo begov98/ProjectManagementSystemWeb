@@ -61,7 +61,10 @@ namespace ProjectManagementSystem.Controllers
         {
             ViewBag.subtaskId = subtaskId;
             var subtask = await subtaskService.GetSubtaskAsync(subtaskId);
-            //TODO:Add check
+            if (subtask == null)
+            {
+                throw new ArgumentException("Not found subtask with the given ID");
+            }
             ViewBag.SubtaskName = subtask.Name;
             ViewBag.ProjectName = subtask.Project;
 
@@ -118,6 +121,62 @@ namespace ProjectManagementSystem.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ChangeStatus(int subtaskId)
+        {
+            ViewBag.subtaskId = subtaskId;
+            var subtask = await subtaskService.GetSubtaskAsync(subtaskId);
+            if (subtask == null)
+            {
+                throw new ArgumentException("Not found subtask with the given ID");
+            }
+            ViewBag.SubtaskName = subtask.Name;
+            ViewBag.ProjectName = subtask.Project;
+
+            var model = new List<ChangeStatusViewModel>();
+
+            var statuses = await subtaskService.GetStatusesAsync();
+
+            foreach (var status in statuses)
+            {
+                var statusViewModel = new ChangeStatusViewModel
+                {
+                    StatusId = status.Id,
+                    StatusName = status.StatusTitle
+                };
+
+                if (subtask.StatusId == status.Id)
+                {
+                    statusViewModel.Selected = true;
+                }
+                else
+                {
+                    statusViewModel.Selected = false;
+                }
+
+                model.Add(statusViewModel);
+            }
+
+            return View(model);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeStatus(List<ChangeStatusViewModel> model, int subtaskId)
+        {
+
+            foreach (var checkStatus in model)
+            {
+                if (checkStatus.Selected)
+                {
+                    await subtaskService.ChangeStatusAsync(checkStatus.StatusId, subtaskId);
+                }
+            }
+
+
+            return RedirectToAction("Details", new { subtaskId = subtaskId });
+
+        }
 
 
     }

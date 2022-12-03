@@ -135,5 +135,16 @@ namespace ProjectManagementSystem.Services
 
 
         }
+
+        public async Task ChangeStatusAsync(int statusId, int subtaskId)
+        {
+            var subtask = await context.Subtasks
+                .Where(st => st.Id == subtaskId)
+                .FirstOrDefaultAsync();
+
+            subtask.StatusId = statusId;
+
+            await context.SaveChangesAsync();
+        }
     }
 }

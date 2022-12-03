@@ -10,11 +10,5 @@ namespace ProjectManagementSystem.Models
         public string SpecialistSurname { get; set; }
         public bool Selected { get; set; }
 
-
-
-
-
-
-
     }
 }

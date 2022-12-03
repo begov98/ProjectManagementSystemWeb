@@ -20,6 +20,6 @@ namespace ProjectManagementSystem.Contracts
 
         Task RemoveSpecialistsAsync(string specialistId, int subtaskId);
 
-        
+        Task ChangeStatusAsync(int statusId, int subtaskId);
     }
 }

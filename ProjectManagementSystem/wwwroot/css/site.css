@@ -45,6 +45,24 @@ body {
     border-radius: 0.15rem;
 }
 
+/*-----------LINK TEXT---------------*/
+
+.StatusLink {
+    box-shadow: inset 0 0 0 0 #54b3d6;
+    color: black;
+    margin: 0 -.25rem;
+    padding: 0 .25rem;
+    text-decoration: none;
+    text-decoration-style:solid;
+    text-transform: uppercase;
+    transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+}
+
+    .StatusLink:hover {
+        box-shadow: inset 100px 0 0 0 #54b3d6;
+        color: white;
+    }
+
 
 /*-------PROJECT CARDS STYLES--------*/
 
