@@ -142,6 +142,11 @@ namespace ProjectManagementSystem.Services
                 .Where(st => st.Id == subtaskId)
                 .FirstOrDefaultAsync();
 
+            if (subtask == null)
+            {
+                throw new ArgumentException("Invalid subtask ID!");
+            }
+
             subtask.StatusId = statusId;
 
             await context.SaveChangesAsync();
