@@ -27,7 +27,8 @@ namespace ProjectManagementSystem.Services
                 Name = model.Name,
                 Description = model.Description,
                 StatusId = model.StatusId,
-                ProjectId = model.ProjectId
+                ProjectId = model.ProjectId,
+                CategoryId = model.CategoryId
                 
             };
 
@@ -85,10 +86,16 @@ namespace ProjectManagementSystem.Services
             return await context.Statuses.ToListAsync();
         }
 
+        public async Task<IEnumerable<Category>> GetCategoriesAsync()
+        {
+            return await context.Categories.ToListAsync();
+        }
+
         public async Task<SubtaskViewModel> GetSubtaskAsync(int subtaskId)
         {
             var subtask = await context.Subtasks
                 .Include(st => st.Status)
+                .Include(st => st.Category)
                 .Include(st => st.Project)
                 .Include(st => st.ApplicationUsersSubtasks)
                 .FirstOrDefaultAsync(s => s.Id == subtaskId);
@@ -108,6 +115,8 @@ namespace ProjectManagementSystem.Services
                 Status = subtask?.Status?.StatusTitle,
                 ProjectId = subtask.ProjectId,
                 Project = subtask?.Project?.Name,
+                CategoryId = subtask.CategoryId,
+                Category = subtask?.Category?.Name,
                 SpecialistsIds = subtask?.ApplicationUsersSubtasks?.Select(u => u.ApplicationUserId)
             };
         }

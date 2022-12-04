@@ -18,6 +18,10 @@ namespace ProjectManagementSystem.Models
 
             public string Project { get; set; }
 
+            public int CategoryId { get; set; }
+
+            public string Category { get; set; }
+
             public IEnumerable<Status> Statuses { get; set; } = new List<Status>();
 
             public IEnumerable<string> SpecialistsIds { get; set; } = new List<string>();

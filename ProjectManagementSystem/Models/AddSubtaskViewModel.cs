@@ -19,5 +19,9 @@ namespace ProjectManagementSystem.Models
 
         public IEnumerable<Project> Projects { get; set; } = new List<Project>();
 
+        public int CategoryId { get; set; }
+
+        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
+
     }
 }

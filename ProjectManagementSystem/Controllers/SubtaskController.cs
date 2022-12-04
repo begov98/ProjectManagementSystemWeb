@@ -19,8 +19,8 @@ namespace ProjectManagementSystem.Controllers
             var model = new AddSubtaskViewModel()
             {
                 Statuses = await subtaskService.GetStatusesAsync(),
-                Projects = await subtaskService.GetProjectsAsync()
-                //TODO: Add categories...
+                Projects = await subtaskService.GetProjectsAsync(),
+                Categories = await subtaskService.GetCategoriesAsync()
             };
 
             return View(model);

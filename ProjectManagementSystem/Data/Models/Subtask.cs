@@ -28,6 +28,10 @@ namespace ProjectManagementSystem.Data.Models
 
         public Project Project { get; set; }
 
+        public int CategoryId { get; set; }
+
+        public Category Category { get; set; }
+
         public List<ApplicationUserSubtask> ApplicationUsersSubtasks { get; set; } = new List<ApplicationUserSubtask>();
     }
 }

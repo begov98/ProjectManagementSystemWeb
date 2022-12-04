@@ -8,6 +8,7 @@
 
 <h1>@ViewBag.Title</h1>
 <h6>Project: @Model.Project</h6>
+<h6>Category: @Model.Category</h6>
 <hr/>
 <h3>Status: <a class="StatusLink" asp-controller="Subtask" asp-action="ChangeStatus" asp-route-subtaskId="@Model.Id">@Model.Status</a> </h3>
 <table class="table table-striped">
