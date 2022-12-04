@@ -20,5 +20,9 @@ namespace ProjectManagementSystem.Data.Models
         [StringLength(500)]
         public string CommentPost { get; set; }
 
+        public int SubtaskId { get; set; }
+
+        public Subtask Subtask { get; set; }
+
     }
 }

@@ -8,9 +8,11 @@ namespace ProjectManagementSystem.Controllers
     public class SubtaskController : Controller
     {
         private readonly ISubtaskService subtaskService;
-        public SubtaskController(ISubtaskService _subtaskService)
+        private readonly ICommentService commentService;
+        public SubtaskController(ISubtaskService _subtaskService, ICommentService _commentService)
         {
             subtaskService = _subtaskService;
+            commentService = _commentService;
         }
 
         [HttpGet]
@@ -53,7 +55,17 @@ namespace ProjectManagementSystem.Controllers
         public async Task<IActionResult> Details (int subtaskId)
         {
             var model = await subtaskService.GetSubtaskAsync(subtaskId);
+            var comments = await commentService.GetCommentsAsync();
+            ViewBag.Comments = comments;
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Details(int subtaskId, CommentViewModel commentModel)
+        {
+            var model = await subtaskService.GetSubtaskAsync(subtaskId);
+            await commentService.AddCommentAsync(commentModel);
+            return View();
         }
 
         [HttpGet]
