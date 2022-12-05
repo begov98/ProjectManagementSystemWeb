@@ -25,16 +25,25 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if(User?.Identity?.IsAuthenticated ?? false)
+                        @if (User?.Identity?.IsAuthenticated ?? false)
                         {
-                            @if(User.IsInRole("Manager"))
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Projects" asp-action="All">Projects</a>
+                            </li>
+                            @if (User.IsInRole("Manager") || User.IsInRole("ProjectManager"))
                             {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="RoleManager" asp-action="Index">Role Manager</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="UserRoles" asp-action="Index">User Manager</a>
-                            </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Projects" asp-action="Add">Add project</a>
+                                </li>
+                            }
+                            @if (User.IsInRole("Manager"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="RoleManager" asp-action="Index">Role Manager</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="UserRoles" asp-action="Index">User Manager</a>
+                                </li>
                             }
                         }
                     </ul>
