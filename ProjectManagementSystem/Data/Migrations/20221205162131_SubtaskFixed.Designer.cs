@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectManagementSystem.Data;
 
@@ -11,9 +12,10 @@ using ProjectManagementSystem.Data;
 namespace ProjectManagementSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221205162131_SubtaskFixed")]
+    partial class SubtaskFixed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,29 +49,6 @@ namespace ProjectManagementSystem.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1c3b7db5-c6a5-4541-a40c-c311eeac28a4",
-                            ConcurrencyStamp = "1c3b7db5-c6a5-4541-a40c-c311eeac28a4",
-                            Name = "Manager",
-                            NormalizedName = "MANAGER"
-                        },
-                        new
-                        {
-                            Id = "528ab890-6ba2-4144-83bf-c806cdb19eb1",
-                            ConcurrencyStamp = "528ab890-6ba2-4144-83bf-c806cdb19eb1",
-                            Name = "ProjectManager",
-                            NormalizedName = "PROJECTMANAGER"
-                        },
-                        new
-                        {
-                            Id = "e8eab2c6-5f73-403c-a252-3bb6fa039091",
-                            ConcurrencyStamp = "e8eab2c6-5f73-403c-a252-3bb6fa039091",
-                            Name = "Specialist",
-                            NormalizedName = "SPECIALIST"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -159,13 +138,6 @@ namespace ProjectManagementSystem.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "3dd00985-a76e-4049-b41d-012bbb8a2fc2",
-                            RoleId = "1c3b7db5-c6a5-4541-a40c-c311eeac28a4"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -270,27 +242,6 @@ namespace ProjectManagementSystem.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "3dd00985-a76e-4049-b41d-012bbb8a2fc2",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "7bf9f060-4fe9-428f-97d7-9a386b7f5135",
-                            Email = "admin@pms.bg",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Name = "Leeroy",
-                            NormalizedUserName = "PMSADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAELNiGwHoNOEWzD9DQG+4SkR+ou/zpAWvZKPQtlS7Mp+Kp1YIpJuVmy8XIGgH0fV3nw==",
-                            PhoneNumberConfirmed = false,
-                            Position = "Employee",
-                            ProfilePicture = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                            SecurityStamp = "3ddce88a-c08a-49ca-bca4-9f26b7d4b2f7",
-                            Surname = "Jenkins",
-                            TwoFactorEnabled = false,
-                            UserName = "pmsadmin"
-                        });
                 });
 
             modelBuilder.Entity("ProjectManagementSystem.Data.Models.ApplicationUserSubtask", b =>
