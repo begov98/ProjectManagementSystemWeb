@@ -4,9 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h1>Role Manager</h1>
+<small><strong>Note: Contact your administrator to configure the rights for the new created roles!!!</strong></small>
 <form method="post" asp-action="AddRole" asp-controller="RoleManager">
     <div class="input-group">
-        <input name="roleName" class="form-control w-25">
+        <input name="roleName" class="form-control w-25" placeholder="Role name">
         <span class="input-group-btn">
             <button class="btn btn-info">Add New Role</button>
         </span>
