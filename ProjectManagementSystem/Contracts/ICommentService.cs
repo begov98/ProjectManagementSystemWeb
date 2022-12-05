@@ -9,5 +9,9 @@ namespace ProjectManagementSystem.Contracts
 
         Task<IEnumerable<CommentViewModel>> GetCommentsAsync();
 
+        Task<IEnumerable<CommentViewModel>> GetCommentsByIdAsync(int subtaskId);
+
+        Task DeleteComment(int commentId);
+
     }
 }

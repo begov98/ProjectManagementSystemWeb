@@ -53,5 +53,39 @@ namespace ProjectManagementSystem.Services
                 Subtask = c.Subtask.Name
             });
         }
+
+        public async Task<IEnumerable<CommentViewModel>> GetCommentsByIdAsync(int subtaskId)
+        {
+
+            var entities = await context.Comments
+                .Where(c => c.SubtaskId == subtaskId)
+                .Include(c => c.Author)
+                .Include(c => c.Subtask)
+                .ToListAsync();
+
+            return entities.Select(c => new CommentViewModel()
+            {
+                Id = c.Id,
+                CommentPost = c.CommentPost,
+                AuthorId = c.AuthorId,
+                Author = c.Author.Name,
+                SubtaskId = c.SubtaskId,
+                Subtask = c.Subtask.Name
+            });
+        }
+
+        public async Task DeleteComment(int commentId)
+        {
+            var comment = await context.Comments.FirstOrDefaultAsync(c => c.Id == commentId);
+
+            if (comment == null)
+            {
+                throw new ArgumentException("Comment not found");
+            }
+
+            context.Remove(comment);
+            await context.SaveChangesAsync();
+
+        }
     }
 }

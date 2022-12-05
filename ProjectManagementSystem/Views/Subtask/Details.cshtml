@@ -9,6 +9,8 @@
     IEnumerable<CommentViewModel> comments = ViewBag.Comments;
     var commentsCount = ViewBag.NumberOfComments;
     var commentModel = new CommentViewModel();
+    var commentDelModel = new CommentViewModel();
+    int commentId = new int();
     var subtaskId = Model.Id;
 }
 
@@ -84,8 +86,6 @@
             <!-- COMMENT - START -->
             @foreach (var comment in comments.Reverse())
             {
-                if (comment.SubtaskId == Model.Id)
-                {
                     <hr />
                     <div class="media">
 
@@ -94,17 +94,17 @@
                         <small>&nbsp @@@(UserManager.FindByIdAsync(comment.AuthorId).Result.UserName)</small>
 
                         <p><strong>@comment.CommentPost</strong></p>
-                        @*                                <ul class="list-unstyled list-inline media-detail pull-left">
-                <li><i class="fa fa-calendar"></i>27/02/2014</li>
-                <li><i class="fa fa-thumbs-up"></i>13</li>
-                </ul>
-                <ul class="list-unstyled list-inline media-detail pull-right">
-                <li class=""><a href="">Like</a></li>
-                <li class=""><a href="">Reply</a></li>
-                </ul>*@
-
+                        @if (UserManager.GetUserAsync(User).Result.Id == UserManager.FindByIdAsync(comment.AuthorId).Result.Id)
+                        {
+                            <ul class="list-unstyled list-inline media-detail pull-right">
+                                <form asp-controller="Comment" asp-action="Delete" method="post">
+                                    <input type="hidden" asp-for="@commentId" value="@comment.Id" />
+                                    <input type="hidden" asp-for="@subtaskId" value="@subtaskId" />
+                                <li><input type="submit" value="Delete"/></li>
+                                </form>
+                            </ul>
+                        }
                     </div>
-                }
             }
 
             <!-- COMMENT - END -->

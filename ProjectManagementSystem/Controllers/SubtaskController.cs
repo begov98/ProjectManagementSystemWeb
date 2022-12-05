@@ -56,7 +56,7 @@ namespace ProjectManagementSystem.Controllers
         public async Task<IActionResult> Details (int subtaskId)
         {
             var model = await subtaskService.GetSubtaskAsync(subtaskId);
-            var comments = await commentService.GetCommentsAsync();
+            var comments = await commentService.GetCommentsByIdAsync(subtaskId);
             int count = comments.Count();
             ViewBag.NumberOfComments = count;
             ViewBag.Comments = comments;
@@ -66,7 +66,6 @@ namespace ProjectManagementSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Details(CommentViewModel commentModel)
         {
-            var model = await subtaskService.GetSubtaskAsync(commentModel.SubtaskId);
             await commentService.AddCommentAsync(commentModel);
             var comments = await commentService.GetCommentsAsync();
             int count = comments.Count();
