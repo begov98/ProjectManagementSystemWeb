@@ -45,64 +45,69 @@
 
 @*------------------------------------------------COMMENTS SECTION----------------------------------------------------*@
 
-<section class="content-item" id="comments">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-8">
-                <form asp-action="Details" method="post">
-                    <h3 class="pull-left">New Comment</h3>
-                    <fieldset>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            @if (UserManager.GetUserAsync(User).Result.ProfilePicture != null)
-                            {
-                                <img style="width:50px;height:50px; border-radius:40px" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfilePicture))">
-                                <h6 class="my-0 text-dark d-block">@(UserManager.GetUserAsync(User).Result.Name) @(UserManager.GetUserAsync(User).Result.Surname)</h6>
-                                <hr />
-                            }
-                        }
-                        <div class="form-group col-xs-12 col-sm-9 col-lg-10">
-                            <input type="hidden" asp-for="@commentModel.AuthorId" value="@UserManager.GetUserAsync(User).Result.Id" />
-                            <input type="hidden" asp-for="@commentModel.SubtaskId" value="@Model.Id" />
-                            <textarea class="form-control" asp-for="@commentModel.CommentPost"></textarea>
-                        </div>
-                        <input type="hidden" asp-for="@commentModel.AuthorId" value="@UserManager.GetUserAsync(User).Result.Id" />
-                        <input type="hidden" asp-for="@commentModel.SubtaskId" value="@subtaskId" />
-                        <div>
-                            <input type="submit" value="New comment" class="btn btn-primary"
-                                   style="width:auto" />
-                        </div>
-                        @*<a class="btn btn-primary" asp-controller="Subtask" asp-action="AddComment" asp-route-subtaskId="@Model.Id">Add comment</a>*@
-                    </fieldset>
-                </form>
 
-                <h3>@commentsCount Comments</h3>
-
-                <!-- COMMENT 1 - START -->
-                @foreach (var comment in comments.Reverse())
-                {
-                    if (comment.SubtaskId == Model.Id)
+<div class="container cardTransparent">
+    <div class="row">
+        <div class="col-sm-8">
+            <form asp-action="Details" method="post">
+                <small>&nbsp</small>
+                <h4>@commentsCount Comments</h4>
+                <small>&nbsp</small>
+                <fieldset>
+                    @if (SignInManager.IsSignedIn(User))
                     {
-                        <div class="media">
-                            <img style="width:50px;height:50px; border-radius:40px" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.FindByIdAsync(comment.AuthorId).Result.ProfilePicture))">
-                            <div class="media-body">
-                                <h4 class="my-0 text-dark d-block">@(UserManager.FindByIdAsync(comment.AuthorId).Result.Name) @(UserManager.FindByIdAsync(comment.AuthorId).Result.Surname)</h4>
-                                <p>@comment.CommentPost</p>
-@*                                <ul class="list-unstyled list-inline media-detail pull-left">
-                                    <li><i class="fa fa-calendar"></i>27/02/2014</li>
-                                    <li><i class="fa fa-thumbs-up"></i>13</li>
-                                </ul>
-                                <ul class="list-unstyled list-inline media-detail pull-right">
-                                    <li class=""><a href="">Like</a></li>
-                                    <li class=""><a href="">Reply</a></li>
-                                </ul>*@
-                            </div>
-                        </div>
+                        @if (UserManager.GetUserAsync(User).Result.ProfilePicture != null)
+                        {
+                            <img style="width:50px;height:50px; border-radius:40px; float:left;" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfilePicture))">
+                            <h5 class="my-0 text-dark d-block"><strong>&nbsp You</strong></h5>
+                            <small>&nbsp @@@(UserManager.GetUserAsync(User).Result.UserName)</small>
+                            <small>&nbsp</small>
+                        }
                     }
-                }
+                    <small>&nbsp</small>
+                    <div class="form-group col-xs-12 col-sm-9 col-lg-10">
+                        <small>&nbsp</small>
+                        <input type="hidden" asp-for="@commentModel.AuthorId" value="@UserManager.GetUserAsync(User).Result.Id" />
+                        <input type="hidden" asp-for="@commentModel.SubtaskId" value="@Model.Id" />
+                        <textarea class="form-control" asp-for="@commentModel.CommentPost" placeholder="Type your comment here..." required=""></textarea>
+                    </div>
+                    <input type="hidden" asp-for="@commentModel.AuthorId" value="@UserManager.GetUserAsync(User).Result.Id" />
+                    <input type="hidden" asp-for="@commentModel.SubtaskId" value="@subtaskId" />
+                    <small>&nbsp</small>
+                    <div>
+                        <input type="submit" value="Add comment" class="btn btn-primary"
+                               style="width:auto" />
+                    </div>
+                    <p>&nbsp</p>
+                </fieldset>
+            </form>
+            <!-- COMMENT - START -->
+            @foreach (var comment in comments.Reverse())
+            {
+                if (comment.SubtaskId == Model.Id)
+                {
+                    <hr />
+                    <div class="media">
 
-                <!-- COMMENT 1 - END -->
-            </div>
+                        <img style="width:40px;height:40px; border-radius:30px; float:left;" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.FindByIdAsync(comment.AuthorId).Result.ProfilePicture))">
+                        <h5 class="my-0 text-dark d-block"> &nbsp @(UserManager.FindByIdAsync(comment.AuthorId).Result.Name) @(UserManager.FindByIdAsync(comment.AuthorId).Result.Surname)</h5>
+                        <small>&nbsp @@@(UserManager.FindByIdAsync(comment.AuthorId).Result.UserName)</small>
+
+                        <p><strong>@comment.CommentPost</strong></p>
+                        @*                                <ul class="list-unstyled list-inline media-detail pull-left">
+                <li><i class="fa fa-calendar"></i>27/02/2014</li>
+                <li><i class="fa fa-thumbs-up"></i>13</li>
+                </ul>
+                <ul class="list-unstyled list-inline media-detail pull-right">
+                <li class=""><a href="">Like</a></li>
+                <li class=""><a href="">Reply</a></li>
+                </ul>*@
+
+                    </div>
+                }
+            }
+
+            <!-- COMMENT - END -->
         </div>
     </div>
-</section>
+</div>
