@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Contracts;
+using ProjectManagementSystem.Data.Models;
 using ProjectManagementSystem.Models;
 using ProjectManagementSystem.Services;
 
@@ -56,16 +57,22 @@ namespace ProjectManagementSystem.Controllers
         {
             var model = await subtaskService.GetSubtaskAsync(subtaskId);
             var comments = await commentService.GetCommentsAsync();
+            int count = comments.Count();
+            ViewBag.NumberOfComments = count;
             ViewBag.Comments = comments;
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Details(int subtaskId, CommentViewModel commentModel)
+        public async Task<IActionResult> Details(CommentViewModel commentModel)
         {
-            var model = await subtaskService.GetSubtaskAsync(subtaskId);
+            var model = await subtaskService.GetSubtaskAsync(commentModel.SubtaskId);
             await commentService.AddCommentAsync(commentModel);
-            return View();
+            var comments = await commentService.GetCommentsAsync();
+            int count = comments.Count();
+            ViewBag.NumberOfComments = count;
+            ViewBag.Comments = comments;
+            return RedirectToAction("Details", new { subtaskId = commentModel.SubtaskId });
         }
 
         [HttpGet]

@@ -6,14 +6,16 @@
 
 @{
     ViewBag.Title = Model.Name;
-    var comments = ViewBag.Comments;
+    IEnumerable<CommentViewModel> comments = ViewBag.Comments;
+    var commentsCount = ViewBag.NumberOfComments;
     var commentModel = new CommentViewModel();
+    var subtaskId = Model.Id;
 }
 
 <h1>@ViewBag.Title</h1>
 <h6>Project: @Model.Project</h6>
 <h6>Category: @Model.Category</h6>
-<hr/>
+<hr />
 <h3>Status: <a class="StatusLink" asp-controller="Subtask" asp-action="ChangeStatus" asp-route-subtaskId="@Model.Id">@Model.Status</a> </h3>
 <table class="table table-striped">
     <thead>
@@ -50,41 +52,55 @@
                 <form asp-action="Details" method="post">
                     <h3 class="pull-left">New Comment</h3>
                     <fieldset>
-                            @if (SignInManager.IsSignedIn(User)){
-                                @if (UserManager.GetUserAsync(User).Result.ProfilePicture != null)
-                                {
-                                    <img style="width:50px;height:50px; border-radius:40px" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfilePicture))">
-                                    <h6 class="my-0 text-dark d-block">@(UserManager.GetUserAsync(User).Result.Name) @(UserManager.GetUserAsync(User).Result.Surname)</h6>
-                                    <hr />
-                                }
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            @if (UserManager.GetUserAsync(User).Result.ProfilePicture != null)
+                            {
+                                <img style="width:50px;height:50px; border-radius:40px" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfilePicture))">
+                                <h6 class="my-0 text-dark d-block">@(UserManager.GetUserAsync(User).Result.Name) @(UserManager.GetUserAsync(User).Result.Surname)</h6>
+                                <hr />
                             }
-                            <div class="form-group col-xs-12 col-sm-9 col-lg-10">
-                                <textarea class="form-control" asp-for="@commentModel.CommentPost"></textarea>
+                        }
+                        <div class="form-group col-xs-12 col-sm-9 col-lg-10">
                             <input type="hidden" asp-for="@commentModel.AuthorId" value="@UserManager.GetUserAsync(User).Result.Id" />
                             <input type="hidden" asp-for="@commentModel.SubtaskId" value="@Model.Id" />
-                            </div>
-                        <a class="btn btn-primary" asp-controller="Subtask" asp-action="AddComment" asp-route-subtaskId="@Model.Id">Add comment</a>
+                            <textarea class="form-control" asp-for="@commentModel.CommentPost"></textarea>
+                        </div>
+                        <input type="hidden" asp-for="@commentModel.AuthorId" value="@UserManager.GetUserAsync(User).Result.Id" />
+                        <input type="hidden" asp-for="@commentModel.SubtaskId" value="@subtaskId" />
+                        <div>
+                            <input type="submit" value="New comment" class="btn btn-primary"
+                                   style="width:auto" />
+                        </div>
+                        @*<a class="btn btn-primary" asp-controller="Subtask" asp-action="AddComment" asp-route-subtaskId="@Model.Id">Add comment</a>*@
                     </fieldset>
                 </form>
 
-                <h3>4 Comments</h3>
+                <h3>@commentsCount Comments</h3>
 
                 <!-- COMMENT 1 - START -->
-                <div class="media">
-                    <a class="pull-left" href="#"><img class="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""></a>
-                    <div class="media-body">
-                        <h4 class="media-heading">John Doe</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <ul class="list-unstyled list-inline media-detail pull-left">
-                            <li><i class="fa fa-calendar"></i>27/02/2014</li>
-                            <li><i class="fa fa-thumbs-up"></i>13</li>
-                        </ul>
-                        <ul class="list-unstyled list-inline media-detail pull-right">
-                            <li class=""><a href="">Like</a></li>
-                            <li class=""><a href="">Reply</a></li>
-                        </ul>
-                    </div>
-                </div>
+                @foreach (var comment in comments.Reverse())
+                {
+                    if (comment.SubtaskId == Model.Id)
+                    {
+                        <div class="media">
+                            <img style="width:50px;height:50px; border-radius:40px" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.FindByIdAsync(comment.AuthorId).Result.ProfilePicture))">
+                            <div class="media-body">
+                                <h4 class="my-0 text-dark d-block">@(UserManager.FindByIdAsync(comment.AuthorId).Result.Name) @(UserManager.FindByIdAsync(comment.AuthorId).Result.Surname)</h4>
+                                <p>@comment.CommentPost</p>
+@*                                <ul class="list-unstyled list-inline media-detail pull-left">
+                                    <li><i class="fa fa-calendar"></i>27/02/2014</li>
+                                    <li><i class="fa fa-thumbs-up"></i>13</li>
+                                </ul>
+                                <ul class="list-unstyled list-inline media-detail pull-right">
+                                    <li class=""><a href="">Like</a></li>
+                                    <li class=""><a href="">Reply</a></li>
+                                </ul>*@
+                            </div>
+                        </div>
+                    }
+                }
+
                 <!-- COMMENT 1 - END -->
             </div>
         </div>

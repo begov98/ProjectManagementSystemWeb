@@ -47,7 +47,9 @@ namespace ProjectManagementSystem.Services
             {
                 Id = c.Id,
                 CommentPost = c.CommentPost,
+                AuthorId = c.AuthorId,
                 Author = c.Author.Name,
+                SubtaskId = c.SubtaskId,
                 Subtask = c.Subtask.Name
             });
         }
