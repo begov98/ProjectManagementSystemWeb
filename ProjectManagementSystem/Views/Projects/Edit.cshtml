@@ -1,6 +1,8 @@
-﻿@model AddProjectViewModel
+﻿@model EditProjectViewModel
 @{
-    ViewBag.Title = "Add project";
+    var Id = Model.Id;
+    ViewBag.Title = "Edit project";
+
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -8,20 +10,21 @@
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form asp-action="Add" method="post">
+        <form asp-action="Edit" method="post">
             <div class="mb-3">
                 <label asp-for="@Model.Name" class="form-label">Name</label>
-                <input asp-for="@Model.Name" class="form-control" aria-required="true" />
+                <input asp-for="@Model.Name" class="form-control" aria-required="true" placeholder="@Model.Name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="@Model.Description" class="form-label">Description</label>
-                <textarea asp-for="@Model.Description" class="form-control" aria-required="true" rows="5"></textarea>
+                <textarea asp-for="@Model.Description" class="form-control" aria-required="true" placeholder="@Model.Description" rows="5"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="@Model.ProjectManagerId" class="form-label">Project manager</label>
                 <select asp-for="@Model.ProjectManagerId" class="form-control">
+                    <option value="" disabled selected>Select project manager</option>
                     @foreach (var projectManager in Model.ProjectManagers)
                     {
                         <option value="@projectManager.Id">@projectManager.Name</option>
@@ -29,13 +32,17 @@
                 </select>
                 <span asp-validation-for="ProjectManagerId" class="text-danger"></span>
             </div>
-          <div class="mb-3">
-            <label asp-for="@Model.Picture" class="form-label">Picture URL</label>
-            <input asp-for="@Model.Picture" class="form-control" aria-required="true" />
-            <span asp-validation-for="Picture" class="text-danger"></span>
+            <div class="mb-3">
+                <label asp-for="@Model.Picture" class="form-label">Picture URL</label>
+                <input asp-for="@Model.Picture" class="form-control" placeholder="@Model.Picture" aria-required="true" />
+                <span asp-validation-for="Picture" class="text-danger"></span>
+            </div>
+            <div>
+                <input type="hidden" asp-for="@Id" value="@Id" />
+                
             </div>
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
     </div>
@@ -45,4 +52,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-

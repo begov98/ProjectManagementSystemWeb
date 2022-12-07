@@ -36,7 +36,6 @@ namespace ProjectManagementSystem.Controllers
             return View(model);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Add(AddProjectViewModel model)
         {
@@ -91,7 +90,20 @@ namespace ProjectManagementSystem.Controllers
             return RedirectToAction(nameof(ManageProjects));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(int projectId)
+        {
+            var model = await projectService.GetProjectEditInfoAsync(projectId);
 
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit (EditProjectViewModel model)
+        {
+            await projectService.EditProjectAsync(model, model.Id);
+            return RedirectToAction(nameof(ManageProjects));
+        }
 
     }
 }

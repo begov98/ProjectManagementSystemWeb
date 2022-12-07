@@ -1,10 +1,8 @@
-﻿
-using ProjectManagementSystem.Data.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using ProjectManagementSystem.Data.Models;
 
 namespace ProjectManagementSystem.Models
 {
-    public class ProjectViewModel
+    public class EditProjectViewModel
     {
         public int Id { get; set; }
 
@@ -12,13 +10,10 @@ namespace ProjectManagementSystem.Models
 
         public string Description { get; set; }
 
-        public string ProjectManager { get; set; }
-
         public string ProjectManagerId { get; set; }
 
         public string Picture { get; set; }
 
-
-
+        public IEnumerable<ApplicationUser> ProjectManagers { get; set; } = new List<ApplicationUser>();
     }
 }

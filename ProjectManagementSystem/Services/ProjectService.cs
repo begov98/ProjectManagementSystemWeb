@@ -117,12 +117,64 @@ namespace ProjectManagementSystem.Services
 
             if (project == null)
             {
-                throw new ArgumentException("Comment not found");
+                throw new ArgumentException("Project not found");
             }
 
             context.Remove(project);
             await context.SaveChangesAsync();
 
+        }
+
+        public async Task<EditProjectViewModel> GetProjectEditInfoAsync(int projectId)
+        {
+            var project = await context.Projects
+                    .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            if (project == null)
+            {
+                throw new ArgumentException("Project not found... :("); //TODO: To implement some error message/page!
+
+            }
+            var pmanagers = await GetProjectManagersAsync();
+
+            return new EditProjectViewModel()
+            {
+                Id = project.Id,
+                Name = project.Name,
+                Description = project.Description,
+                Picture = project.Picture,
+                ProjectManagers = pmanagers
+            };
+        }
+
+        public async Task EditProjectAsync(EditProjectViewModel model, int projectId)
+        {
+
+            var project = await context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
+
+            if (project == null)
+            {
+                throw new ArgumentException("Project not found");
+            }
+
+            if (model.Name != project.Name)
+            {
+                project.Name = model.Name;
+            }
+            if (model.Description != project.Description)
+            {
+                project.Description = model.Description;
+            }
+            if (model.ProjectManagerId != project.ProjectManagerId)
+            {
+                project.ProjectManagerId = model.ProjectManagerId;
+            }
+            if (model.Picture != model.Picture)
+            {
+                project.Picture = model.Picture;
+            }
+
+            await context.SaveChangesAsync();
         }
     }
     

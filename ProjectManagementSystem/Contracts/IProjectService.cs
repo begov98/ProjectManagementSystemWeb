@@ -17,5 +17,9 @@ namespace ProjectManagementSystem.Contracts
 
         Task DeleteProjectAsync(int projectId);
 
+        Task<EditProjectViewModel> GetProjectEditInfoAsync(int projectId);
+
+        Task EditProjectAsync(EditProjectViewModel model, int projectId);
+
     }
 }

@@ -157,3 +157,12 @@ body {
     background: linear-gradient(0deg, rgba(35, 79, 109, 0.3785889356) 0%, #455f71 100%);
 }
 
+/*-------Input button as link--------*/
+
+form input[type="submit"] {
+    background: none;
+    border: none;
+    color: red;
+    text-decoration: underline;
+    cursor: pointer;
+}

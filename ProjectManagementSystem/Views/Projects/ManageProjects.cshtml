@@ -5,6 +5,7 @@
 @{
     ViewBag.Title = "Manage Projects";
     var subtasks = ViewBag.Subtasks;
+    var projectId = new int();
 }
 <h1>Manage Projects</h1>
 <table class="table table-striped">
@@ -22,15 +23,14 @@
     <tbody>
         @foreach (var project in Model)
         {
-                var subtaskQty = 0;
-                foreach (var subtask in subtasks)
+            var subtaskQty = 0;
+            foreach (var subtask in subtasks)
+            {
+                if (subtask.ProjectId == project.Id)
                 {
-                    if (subtask.ProjectId == project.Id)
-                    {
-                        subtaskQty++;
-                    }
+                    subtaskQty++;
                 }
-            
+            }
             <tr>
                 <td>@project.Name</td>
                 <td>
@@ -41,16 +41,14 @@
                 <td>@subtaskQty</td>
                 <td>|</td>
                 <td>
-                    <form asp-controller="Projects" asp-action="Edit" method="post">
-                        <input type="hidden" asp-for="@project.Id" value="@project.Id" />
-                        <input type="submit" value="Edit" />
-                    </form>
+                    <a asp-controller="Projects" asp-action="Edit" asp-route-projectId="@project.Id">Edit</a>
                 </td>
                 <td>
                     <form asp-controller="Projects" asp-action="Delete" method="post">
-                        <input type="hidden" asp-for="@project.Id" value="@project.Id" />
+                        <input type="hidden" asp-for="@projectId" value="@project.Id" />
                         <input type="submit" value="Delete" />
                     </form>
+
                 </td>
             </tr>
         }
