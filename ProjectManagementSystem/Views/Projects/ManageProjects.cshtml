@@ -46,7 +46,7 @@
                 <td>
                     <form asp-controller="Projects" asp-action="Delete" method="post">
                         <input type="hidden" asp-for="@projectId" value="@project.Id" />
-                        <input type="submit" value="Delete" />
+                        <input type="submit" onclick="clicked(event)" value="Delete" />
                     </form>
 
                 </td>
@@ -54,3 +54,11 @@
         }
     </tbody>
 </table>
+
+<script>
+    function clicked(e) {
+        if (!confirm('Do you really want to delete this project? You cannot undo this action...')) {
+            e.preventDefault();
+        }
+    }
+</script>
