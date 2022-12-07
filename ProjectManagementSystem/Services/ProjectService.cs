@@ -7,6 +7,7 @@ using ProjectManagementSystem.Contracts;
 using ProjectManagementSystem.Data;
 using ProjectManagementSystem.Data.Models;
 using ProjectManagementSystem.Models;
+using System.ComponentModel.Design;
 using Project = ProjectManagementSystem.Data.Models.Project;
 
 namespace ProjectManagementSystem.Services
@@ -110,5 +111,19 @@ namespace ProjectManagementSystem.Services
             //return subtasks;
         }
 
+        public async Task DeleteProjectAsync(int projectId)
+        {
+            var project = await context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
+
+            if (project == null)
+            {
+                throw new ArgumentException("Comment not found");
+            }
+
+            context.Remove(project);
+            await context.SaveChangesAsync();
+
+        }
     }
+    
 }

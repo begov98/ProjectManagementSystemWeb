@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Contracts;
 using ProjectManagementSystem.Data.Models;
 using ProjectManagementSystem.Models;
+using ProjectManagementSystem.Services;
 using System.Security.Claims;
 
 namespace ProjectManagementSystem.Controllers
@@ -60,6 +61,7 @@ namespace ProjectManagementSystem.Controllers
 
         }
 
+        [HttpGet]
         public async Task<IActionResult> Details (int projectId)
         {
             var model = await projectService.GetProjectAsync(projectId);
@@ -67,6 +69,26 @@ namespace ProjectManagementSystem.Controllers
             ViewBag.Subtasks = subtasks;
             return View(model);
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ManageProjects()
+        {
+            var model = await projectService.GetAllAsync();
+
+            var subtasks = await projectService.GetTasksAsync();
+
+            ViewBag.Subtasks = subtasks;
+            
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int projectId)
+        {
+            await projectService.DeleteProjectAsync(projectId);
+            return RedirectToAction(nameof(ManageProjects));
         }
 
 

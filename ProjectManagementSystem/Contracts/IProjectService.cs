@@ -14,5 +14,8 @@ namespace ProjectManagementSystem.Contracts
         Task <ProjectViewModel>GetProjectAsync(int projectId);
 
         Task<IEnumerable<SubtaskViewModel>> GetTasksAsync();
+
+        Task DeleteProjectAsync(int projectId);
+
     }
 }

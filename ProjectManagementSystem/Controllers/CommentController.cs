@@ -14,6 +14,7 @@ namespace ProjectManagementSystem.Controllers
             commentService = _commentService;
         }
 
+        [HttpPost]
         public async Task<IActionResult> Delete(int commentId, int subtaskId)
         {
             await commentService.DeleteComment(commentId);
