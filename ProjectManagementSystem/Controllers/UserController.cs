@@ -9,6 +9,7 @@ using System.Numerics;
 
 namespace ProjectManagementSystem.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
 

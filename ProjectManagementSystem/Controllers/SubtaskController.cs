@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Contracts;
 using ProjectManagementSystem.Data.Models;
 using ProjectManagementSystem.Models;
@@ -17,6 +18,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Manager, ProjectManager")]
         public async Task<IActionResult> Add()
         {
             var model = new AddSubtaskViewModel()
@@ -30,6 +32,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager, ProjectManager")]
         public async Task<IActionResult> Add(AddSubtaskViewModel model)
         {
 
@@ -53,6 +56,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Details (int subtaskId)
         {
             var model = await subtaskService.GetSubtaskAsync(subtaskId);
@@ -66,6 +70,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Details(CommentViewModel commentModel)
         {
             await commentService.AddCommentAsync(commentModel);
@@ -77,6 +82,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Manager, ProjectManager")]
         public async Task<IActionResult> AddSpecialist(int subtaskId)
         {
             ViewBag.subtaskId = subtaskId;
@@ -120,6 +126,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager, ProjectManager")]
         public async Task<IActionResult> AddSpecialist(List<AddSpecialistViewModel> model,int subtaskId)
         {
             
@@ -142,6 +149,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> ChangeStatus(int subtaskId)
         {
             ViewBag.subtaskId = subtaskId;
@@ -182,6 +190,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> ChangeStatus(List<ChangeStatusViewModel> model, int subtaskId)
         {
 
@@ -199,6 +208,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager, ProjectManager")]
         public async Task<IActionResult> Delete(int subtaskId)
         {
             await subtaskService.DeleteSubtaskAsync(subtaskId);
@@ -206,6 +216,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Manager, ProjectManager")]
         public async Task<IActionResult> Edit(int subtaskId)
         {
             var model = await subtaskService.GetSubtaskEditInfoAsync(subtaskId);
@@ -214,6 +225,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager, ProjectManager")]
         public async Task<IActionResult> Edit(EditSubtaskViewModel model)
         {
             await subtaskService.EditSubtaskAsync(model, model.Id);

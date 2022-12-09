@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Contracts;
 using ProjectManagementSystem.Data.Models;
@@ -8,6 +9,7 @@ using System.Security.Claims;
 
 namespace ProjectManagementSystem.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private readonly IProjectService projectService;
@@ -26,6 +28,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Manager, ProjectManager")]
         public async Task<IActionResult> Add()
         {
             var model = new AddProjectViewModel()
@@ -37,6 +40,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager, ProjectManager")]
         public async Task<IActionResult> Add(AddProjectViewModel model)
         {
 
@@ -71,6 +75,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> ManageProjects()
         {
             var model = await projectService.GetAllAsync();
@@ -84,6 +89,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Delete(int projectId)
         {
             await projectService.DeleteProjectAsync(projectId);
@@ -91,6 +97,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Manager, ProjectManager")]
         public async Task<IActionResult> Edit(int projectId)
         {
             var model = await projectService.GetProjectEditInfoAsync(projectId);
@@ -99,6 +106,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager, ProjectManager")]
         public async Task<IActionResult> Edit (EditProjectViewModel model)
         {
             await projectService.EditProjectAsync(model, model.Id);
