@@ -30,5 +30,7 @@ namespace ProjectManagementSystem.Contracts
 
         Task EditSubtaskAsync(EditSubtaskViewModel model, int subtaskId);
 
+        Task<ApplicationUser> GetProjectManagerAsync(int subtaskId);
+
     }
 }

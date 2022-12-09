@@ -57,9 +57,11 @@ namespace ProjectManagementSystem.Controllers
         {
             var model = await subtaskService.GetSubtaskAsync(subtaskId);
             var comments = await commentService.GetCommentsByIdAsync(subtaskId);
+            var pm = await subtaskService.GetProjectManagerAsync(subtaskId);
             int count = comments.Count();
             ViewBag.NumberOfComments = count;
             ViewBag.Comments = comments;
+            ViewBag.ProjectManager = pm;
             return View(model);
         }
 

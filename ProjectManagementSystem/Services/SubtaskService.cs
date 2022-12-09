@@ -223,6 +223,20 @@ namespace ProjectManagementSystem.Services
             await context.SaveChangesAsync();
         }
 
+        public async Task<ApplicationUser> GetProjectManagerAsync(int subtaskId)
+        {
+            var subtask = await context.Subtasks
+                .FirstOrDefaultAsync(s => s.Id == subtaskId);
+
+            var project = await context.Projects
+                .FirstOrDefaultAsync(p => p.Id == subtask.ProjectId);
+
+            var projectManager = await context.Users
+                .FirstOrDefaultAsync(u => u.Id == project.ProjectManagerId);
+
+            return projectManager;
+        }
+
 
     }
 }

@@ -12,16 +12,20 @@
     var commentDelModel = new CommentViewModel();
     int commentId = new int();
     var subtaskId = Model.Id;
+    var projectManager = ViewBag.ProjectManager;
 }
 <h1>@ViewBag.Title</h1>
 <h6>Project: <a style="text-decoration: none; color:black" asp-controller="Projects" asp-action="Details" asp-route-projectId="@Model.ProjectId">@Model.Project</a></h6>
 <h6>Category: @Model.Category</h6>
-<span style="display: inline;">
-    <form asp-controller="Subtask" asp-action="Delete" method="post">
-        <input type="hidden" asp-for="@subtaskId" value="@subtaskId" />
-        <a asp-controller="Subtask" asp-action="Edit" asp-route-subtaskId="@subtaskId" class="btn btn-primary">Edit task</a> <button type="submit" onclick="clicked(event)" class="btn btn-secondary">Delete task</button>
-    </form>
-</span>
+    @if (User.IsInRole("Manager") || UserManager.GetUserAsync(User).Result.Id == projectManager.Id)
+    {
+        <span style="display: inline;">
+            <form asp-controller="Subtask" asp-action="Delete" method="post">
+                <input type="hidden" asp-for="@subtaskId" value="@subtaskId" />
+                <a asp-controller="Subtask" asp-action="Edit" asp-route-subtaskId="@subtaskId" class="btn btn-primary">Edit task</a> <button type="submit" onclick="clicked(event)" class="btn btn-secondary">Delete task</button>
+            </form>
+        </span>
+    }
 <hr />
 <h3>Status: <a class="StatusLink" asp-controller="Subtask" asp-action="ChangeStatus" asp-route-subtaskId="@Model.Id">@Model.Status</a> </h3>
 <table class="table table-striped">
@@ -42,9 +46,12 @@
                     <img class="mr-3 rounded-circle" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.FindByIdAsync(specialist).Result.ProfilePicture))" style="max-width:50px">
                 }
             </td>
+            @if (User.IsInRole("Manager") || UserManager.GetUserAsync(User).Result.Id == projectManager.Id)
+            {
             <td>
                 <a class="btn btn-primary" asp-controller="Subtask" asp-action="AddSpecialist" asp-route-subtaskId="@Model.Id">Add specialist</a>
             </td>
+            }
         </tr>
     </tbody>
 </table>
