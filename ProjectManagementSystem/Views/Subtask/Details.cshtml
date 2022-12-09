@@ -13,10 +13,15 @@
     int commentId = new int();
     var subtaskId = Model.Id;
 }
-
 <h1>@ViewBag.Title</h1>
-<h6>Project: @Model.Project</h6>
+<h6>Project: <a style="text-decoration: none; color:black" asp-controller="Projects" asp-action="Details" asp-route-projectId="@Model.ProjectId">@Model.Project</a></h6>
 <h6>Category: @Model.Category</h6>
+<span style="display: inline;">
+    <form asp-controller="Subtask" asp-action="Delete" method="post">
+        <input type="hidden" asp-for="@subtaskId" value="@subtaskId" />
+        <a asp-controller="Subtask" asp-action="Edit" asp-route-subtaskId="@subtaskId" class="btn btn-primary">Edit task</a> <button type="submit" onclick="clicked(event)" class="btn btn-secondary">Delete task</button>
+    </form>
+</span>
 <hr />
 <h3>Status: <a class="StatusLink" asp-controller="Subtask" asp-action="ChangeStatus" asp-route-subtaskId="@Model.Id">@Model.Status</a> </h3>
 <table class="table table-striped">
@@ -77,7 +82,7 @@
                     <input type="hidden" asp-for="@commentModel.SubtaskId" value="@subtaskId" />
                     <small>&nbsp</small>
                     <div>
-                               <button type="submit" class="btn btn-primary"> Add comment</button>
+                        <button type="submit" class="btn btn-primary"> Add comment</button>
                     </div>
                     <p>&nbsp</p>
                 </fieldset>
@@ -85,28 +90,37 @@
             <!-- COMMENT - START -->
             @foreach (var comment in comments.Reverse())
             {
-                    <hr />
-                    <div class="media">
+                <hr />
+                <div class="media">
 
-                        <img style="width:40px;height:40px; border-radius:30px; float:left;" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.FindByIdAsync(comment.AuthorId).Result.ProfilePicture))">
-                        <h5 class="my-0 text-dark d-block"> &nbsp @(UserManager.FindByIdAsync(comment.AuthorId).Result.Name) @(UserManager.FindByIdAsync(comment.AuthorId).Result.Surname)</h5>
-                        <small>&nbsp @@@(UserManager.FindByIdAsync(comment.AuthorId).Result.UserName)</small>
+                    <img style="width:40px;height:40px; border-radius:30px; float:left;" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.FindByIdAsync(comment.AuthorId).Result.ProfilePicture))">
+                    <h5 class="my-0 text-dark d-block"> &nbsp @(UserManager.FindByIdAsync(comment.AuthorId).Result.Name) @(UserManager.FindByIdAsync(comment.AuthorId).Result.Surname)</h5>
+                    <small>&nbsp @@@(UserManager.FindByIdAsync(comment.AuthorId).Result.UserName)</small>
 
-                        <p><strong>@comment.CommentPost</strong></p>
-                        @if (UserManager.GetUserAsync(User).Result.Id == UserManager.FindByIdAsync(comment.AuthorId).Result.Id)
-                        {
-                            <ul class="list-unstyled list-inline media-detail pull-right">
-                                <form asp-controller="Comment" asp-action="Delete" method="post">
-                                    <input type="hidden" asp-for="@commentId" value="@comment.Id" />
-                                    <input type="hidden" asp-for="@subtaskId" value="@subtaskId" />
-                                <li><input type="submit" value="[Delete]"/></li>
-                                </form>
-                            </ul>
-                        }
-                    </div>
+                    <p><strong>@comment.CommentPost</strong></p>
+                    @if (UserManager.GetUserAsync(User).Result.Id == UserManager.FindByIdAsync(comment.AuthorId).Result.Id)
+                    {
+                        <ul class="list-unstyled list-inline media-detail pull-right">
+                            <form asp-controller="Comment" asp-action="Delete" method="post">
+                                <input type="hidden" asp-for="@commentId" value="@comment.Id" />
+                                <input type="hidden" asp-for="@subtaskId" value="@subtaskId" />
+                            <li><input type="submit" value="[Delete]" /></li>
+                            </form>
+                        </ul>
+                    }
+                </div>
             }
 
             <!-- COMMENT - END -->
         </div>
     </div>
 </div>
+
+
+<script>
+    function clicked(e) {
+        if (!confirm('Do you really want to delete this task? You cannot undo this action...')) {
+            e.preventDefault();
+        }
+    }
+</script>

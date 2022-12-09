@@ -196,6 +196,28 @@ namespace ProjectManagementSystem.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(int subtaskId)
+        {
+            await subtaskService.DeleteSubtaskAsync(subtaskId);
+            return RedirectToAction("All", "Projects");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int subtaskId)
+        {
+            var model = await subtaskService.GetSubtaskEditInfoAsync(subtaskId);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditSubtaskViewModel model)
+        {
+            await subtaskService.EditSubtaskAsync(model, model.Id);
+            return RedirectToAction("Details", "Subtask", new { subtaskId = model.Id });
+        }
+
 
     }
 }

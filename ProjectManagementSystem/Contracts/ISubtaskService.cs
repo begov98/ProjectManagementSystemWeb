@@ -24,5 +24,11 @@ namespace ProjectManagementSystem.Contracts
 
         Task ChangeStatusAsync(int statusId, int subtaskId);
 
+        Task DeleteSubtaskAsync(int subtaskId);
+
+        Task<EditSubtaskViewModel> GetSubtaskEditInfoAsync(int subtaskId);
+
+        Task EditSubtaskAsync(EditSubtaskViewModel model, int subtaskId);
+
     }
 }

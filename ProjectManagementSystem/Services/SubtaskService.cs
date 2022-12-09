@@ -161,6 +161,68 @@ namespace ProjectManagementSystem.Services
             await context.SaveChangesAsync();
         }
 
+        public async Task DeleteSubtaskAsync(int subtaskId)
+        {
+            var subtask = await context.Subtasks.FirstOrDefaultAsync(s => s.Id == subtaskId);
+
+            if (subtask == null)
+            {
+                throw new ArgumentException("Project not found");
+            }
+
+            context.Remove(subtask);
+            await context.SaveChangesAsync();
+
+        }
+
+        public async Task<EditSubtaskViewModel> GetSubtaskEditInfoAsync(int subtaskId)
+        {
+            var subtask = await context.Subtasks
+                    .FirstOrDefaultAsync(p => p.Id == subtaskId);
+
+            var categories = await GetCategoriesAsync();
+
+            if (subtask == null)
+            {
+                throw new ArgumentException("Project not found... :("); //TODO: To implement some error message/page!
+
+            }
+            return new EditSubtaskViewModel()
+            {
+                Id = subtask.Id,
+                Name = subtask.Name,
+                Description = subtask.Description,
+                Categories = categories
+            };
+        }
+
+        public async Task EditSubtaskAsync(EditSubtaskViewModel model, int subtaskId)
+        {
+
+            var subtask = await context.Subtasks.FirstOrDefaultAsync(s => s.Id == subtaskId);
+
+            if (subtask == null)
+            {
+                throw new ArgumentException("Project not found");
+            }
+
+            if (model.Name != subtask.Name)
+            {
+                subtask.Name = model.Name;
+            }
+            if (model.Description != subtask.Description)
+            {
+                subtask.Description = model.Description;
+            }
+            if (model.CategoryId != subtask.CategoryId)
+            {
+                subtask.CategoryId = model.CategoryId;
+            }
+
+
+            await context.SaveChangesAsync();
+        }
+
 
     }
 }
