@@ -84,6 +84,7 @@ namespace ProjectManagementSystem.Services
                 Id = project.Id,
                 Name = project.Name,
                 Description = project.Description,
+                ProjectManagerId = project.ProjectManagerId,
                 ProjectManager = project?.ProjectManager?.Name,
                 Picture = project.Picture
             };
