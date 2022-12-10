@@ -130,24 +130,6 @@ namespace ProjectManagementSystem.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<IActionResult> SeedRoles() 
-        {
-            await roleManager.CreateAsync(new IdentityRole(Constants.Roles.Manager.ToString()));
-            await roleManager.CreateAsync(new IdentityRole(Constants.Roles.ProjectManager.ToString()));
-            await roleManager.CreateAsync(new IdentityRole(Constants.Roles.Specialist.ToString()));
-            return RedirectToAction("Index", "Home");
-        }
-
-        public async Task<IActionResult> AssignAdminToManager()
-        {
-            string adminEmail = "admin@pms.bg";
-            var admin = await userManager.FindByEmailAsync(adminEmail);
-
-            await userManager.AddToRoleAsync(admin, Constants.Roles.Manager.ToString());
-
-            return RedirectToAction("Index", "Home");
-        }
-
     }
 
 }
