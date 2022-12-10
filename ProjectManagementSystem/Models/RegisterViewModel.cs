@@ -9,11 +9,11 @@ namespace ProjectManagementSystem.Models
         public string UserName { get; set; } = null!;
 
         [Required]
-        [StringLength(20, MinimumLength = 5)]
+        [StringLength(20, MinimumLength = 3)]
         public string Name { get; set; } = null!;
 
         [Required]
-        [StringLength(20, MinimumLength = 5)]
+        [StringLength(20, MinimumLength = 3)]
         public string Surname { get; set; } = null!;
 
         [Required]
