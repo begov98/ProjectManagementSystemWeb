@@ -23,6 +23,9 @@ namespace ProjectManagementSystem.Services
             userManager = _userManager;
         }
 
+        /// <summary>
+        /// This method receives Project's required information from AddProjectViewModel and create entity in the DB.
+        /// </summary>
         public async Task AddProjectAsync(AddProjectViewModel model)
         {
 
@@ -40,6 +43,9 @@ namespace ProjectManagementSystem.Services
             await context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// This method returns all projects from the DB as <IEnumerable>.
+        /// </summary>
         public async Task<IEnumerable<ProjectViewModel>> GetAllAsync()
         {
             var entities = await context.Projects
@@ -60,12 +66,18 @@ namespace ProjectManagementSystem.Services
 
         }
 
+        /// <summary>
+        /// This method returns all project managers from the DB as <IEnumerable>.
+        /// </summary>
         public async Task<IEnumerable<ApplicationUser>> GetProjectManagersAsync()
         {
             return await userManager.GetUsersInRoleAsync("ProjectManager");
 
         }
 
+        /// <summary>
+        /// This method returns all project managers from the DB as <IEnumerable>.
+        /// </summary>
         public async Task<ProjectViewModel> GetProjectAsync(int projectId)
         {
 
@@ -90,6 +102,9 @@ namespace ProjectManagementSystem.Services
             };
         }
 
+        /// <summary>
+        /// This method returns all subtasks from the DB as <IEnumerable>.
+        /// </summary>
         public async Task<IEnumerable<SubtaskViewModel>>GetTasksAsync()
         {
             var entities = await context.Subtasks
@@ -112,6 +127,9 @@ namespace ProjectManagementSystem.Services
             //return subtasks;
         }
 
+        /// <summary>
+        /// This method receives projectId, finds the Project in DB and deletes it.
+        /// </summary>
         public async Task DeleteProjectAsync(int projectId)
         {
             var project = await context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
@@ -126,6 +144,9 @@ namespace ProjectManagementSystem.Services
 
         }
 
+        /// <summary>
+        /// This method receives projectId, finds the Project and loads it's data as EditProjectViewModel.
+        /// </summary>
         public async Task<EditProjectViewModel> GetProjectEditInfoAsync(int projectId)
         {
             var project = await context.Projects
@@ -148,6 +169,9 @@ namespace ProjectManagementSystem.Services
             };
         }
 
+        /// <summary>
+        /// This method receives projectId and data as EditProjectViewModel, finds the Project and updates its info according to the EditProjectViewModel's data.
+        /// </summary>
         public async Task EditProjectAsync(EditProjectViewModel model, int projectId)
         {
 

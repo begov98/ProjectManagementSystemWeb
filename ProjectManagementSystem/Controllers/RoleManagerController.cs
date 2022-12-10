@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ProjectManagementSystem.Constants;
 
 namespace ProjectManagementSystem.Controllers
 {

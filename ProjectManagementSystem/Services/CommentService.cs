@@ -18,7 +18,10 @@ namespace ProjectManagementSystem.Services
             userManager = _userManager;
 
         }
-
+        /// <summary>
+        /// This method generates user comment in the opened "Task" page.
+        /// Receives fulfilled CommentViewModel from the comment form in Subtask/Details.cshtml and create new record in the database.
+        /// </summary>
         public async Task AddCommentAsync(CommentViewModel model)
         {
 
@@ -35,6 +38,9 @@ namespace ProjectManagementSystem.Services
 
         }
 
+        /// <summary>
+        /// This method returns all comments from the database as <IEnumerable>
+        /// </summary>
         public async Task<IEnumerable<CommentViewModel>> GetCommentsAsync()
         {
 
@@ -54,6 +60,9 @@ namespace ProjectManagementSystem.Services
             });
         }
 
+        /// <summary>
+        /// This method receives the opened "Task" page ID and returns only it's comments as <IEnumerable>
+        /// </summary>
         public async Task<IEnumerable<CommentViewModel>> GetCommentsByIdAsync(int subtaskId)
         {
 
@@ -74,6 +83,9 @@ namespace ProjectManagementSystem.Services
             });
         }
 
+        /// <summary>
+        /// This method receives commentId, finds the Comment in DB and deletes it.
+        /// </summary>
         public async Task DeleteComment(int commentId)
         {
             var comment = await context.Comments.FirstOrDefaultAsync(c => c.Id == commentId);

@@ -66,7 +66,7 @@ namespace ProjectManagementSystem.Controllers
 
             if (result.Succeeded)
             {
-               await userManager.AddToRoleAsync(user, Constants.Roles.Specialist.ToString());
+               await userManager.AddToRoleAsync(user, "Specialist");
                 return RedirectToAction("Login", "User");
             }
 
