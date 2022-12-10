@@ -45,7 +45,7 @@ namespace ProjectManagementSystem.Controllers
             {
                 await subtaskService.AddSubtaskAsync(model);
 
-                return RedirectToAction("All", "Projects");
+                return RedirectToAction("Details", "Projects", new { ProjectId = model.ProjectId });
             }
             catch (Exception)
             {
@@ -209,10 +209,10 @@ namespace ProjectManagementSystem.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Manager, ProjectManager")]
-        public async Task<IActionResult> Delete(int subtaskId)
+        public async Task<IActionResult> Delete(int subtaskId, int projectId)
         {
             await subtaskService.DeleteSubtaskAsync(subtaskId);
-            return RedirectToAction("All", "Projects");
+            return RedirectToAction("Details", "Projects", new { projectId = projectId });
         }
 
         [HttpGet]

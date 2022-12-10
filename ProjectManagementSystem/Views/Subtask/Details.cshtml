@@ -13,6 +13,7 @@
     int commentId = new int();
     var subtaskId = Model.Id;
     var projectManager = ViewBag.ProjectManager;
+    var projectId = new int();
 }
 <h1>@ViewBag.Title</h1>
 <h6>Project: <a style="text-decoration: none; color:black" asp-controller="Projects" asp-action="Details" asp-route-projectId="@Model.ProjectId">@Model.Project</a></h6>
@@ -22,6 +23,7 @@
         <span style="display: inline;">
             <form asp-controller="Subtask" asp-action="Delete" method="post">
                 <input type="hidden" asp-for="@subtaskId" value="@subtaskId" />
+                <input type="hidden" asp-for="@projectId" value="@Model.ProjectId" />
                 <a asp-controller="Subtask" asp-action="Edit" asp-route-subtaskId="@subtaskId" class="btn btn-primary">Edit task</a> <button type="submit" onclick="clicked(event)" class="btn btn-secondary">Delete task</button>
             </form>
         </span>
