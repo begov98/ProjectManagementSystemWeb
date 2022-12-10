@@ -14,6 +14,12 @@ namespace ProjectManagementSystem.Controllers
             commentService = _commentService;
         }
 
+        /// <summary>
+        /// Delete the comment found by it's ID.
+        /// </summary>
+        /// <param name="commentId"></param>
+        /// <param name="subtaskId"></param>
+        /// <returns>Redirects to the same "Task" page.</returns>
         [HttpPost]
         public async Task<IActionResult> Delete(int commentId, int subtaskId)
         {

@@ -20,8 +20,10 @@ namespace ProjectManagementSystem.Services
         }
 
         /// <summary>
-        /// This method receives Subtasks's required information from AddSubtaskViewModel and create entity in the DB.
+        /// Adds new Subtask entity in the database. The data is passed by the form in Subtask/Add.cshtml
         /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Add the Subtask entity in DB</returns>
         public async Task AddSubtaskAsync(AddSubtaskViewModel model)
         {
             var entity = new Subtask()
@@ -39,8 +41,9 @@ namespace ProjectManagementSystem.Services
         }
 
         /// <summary>
-        /// This method returns all employees with Role "Specialist" as <IEnumerable>
+        /// Gets all ApplicationUsers from the database in role "Specialist".
         /// </summary>
+        /// <returns>All ApplicationUsers in role "Specialist" as IEnumerable</returns>
         public async Task<IEnumerable<ApplicationUser>> GetEmployeesAsync()
         {
                 return await userManager.GetUsersInRoleAsync("Specialist");
@@ -49,8 +52,12 @@ namespace ProjectManagementSystem.Services
 
         /// <summary>
         /// This method receives specialistId and subtaskId, find's the User and Subtask and assign the selected user
-        /// to this Subtask. As result, saves this relation in "ApplicationUsersSubtasks" table
+        /// to this Subtask.
         /// </summary>
+        /// <param name="specialistId"></param>
+        /// <param name="subtaskId"></param>
+        /// <returns>Saves this relation in "ApplicationUsersSubtasks" table</returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task AddSpecialistsToSubtask(string specialistId, int subtaskId)
         {
             var specialist = await context.Users
@@ -86,33 +93,38 @@ namespace ProjectManagementSystem.Services
         }
 
         /// <summary>
-        /// This method returns all Projects as <IEnumerable>
+        /// Gets all Projects from the database. 
         /// </summary>
+        /// <returns>Returns all Projects as IEnumerable</returns>
         public async Task<IEnumerable<Project>> GetProjectsAsync()
         {
             return await context.Projects.ToListAsync();
         }
 
         /// <summary>
-        /// This method returns all Statuses as <IEnumerable>
+        /// Gets all Statuses from the database.
         /// </summary>
+        /// <returns>Returns all Statuses as IEnumerable</returns>
         public async Task<IEnumerable<Status>> GetStatusesAsync()
         {
             return await context.Statuses.ToListAsync();
         }
 
         /// <summary>
-        /// This method returns all Categories as <IEnumerable>
+        /// Gets all Categories from the database.
         /// </summary>
+        /// <returns>Returns all Categories as IEnumerable</returns>
         public async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
             return await context.Categories.ToListAsync();
         }
 
         /// <summary>
-        /// This method receives subtaskId, find the selected Subtask and returns it's data
-        /// as SubtaskViewModel.
+        /// Gets subtask by given parameter subtaskId
         /// </summary>
+        /// <param name="subtaskId"></param>
+        /// <returns>Subtask data as SubtaskViewModel</returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<SubtaskViewModel> GetSubtaskAsync(int subtaskId)
         {
             var subtask = await context.Subtasks
@@ -125,7 +137,7 @@ namespace ProjectManagementSystem.Services
 
            if (subtask == null)
             {
-                throw new ArgumentException("Project not found... :("); //TODO: To implement some error message/page!
+                throw new ArgumentException("Task not found... :("); //TODO: To implement some error message/page!
             }
 
             return new SubtaskViewModel()
@@ -144,9 +156,12 @@ namespace ProjectManagementSystem.Services
         }
 
         /// <summary>
-        /// This method receives subtaskId and specialistId, finds the User and the Subtask and remove this relation 
-        /// from ApplicationUsersSubtasks.
+        /// Removes assigned ApplicationUser from the Subtask
         /// </summary>
+        /// <param name="specialistId"></param>
+        /// <param name="subtaskId"></param>
+        /// <returns>Remove the found ApplicationUser from the Subtask</returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task RemoveSpecialistsAsync(string specialistId, int subtaskId)
         {
             var subtask = await context.Subtasks
@@ -156,7 +171,7 @@ namespace ProjectManagementSystem.Services
 
             if (subtask == null)
             {
-                throw new ArgumentException("Invalid user ID!");
+                throw new ArgumentException("Task not found!");
             }
 
             var specialist = subtask.ApplicationUsersSubtasks.FirstOrDefault(sp => sp.ApplicationUserId == specialistId);
@@ -172,9 +187,12 @@ namespace ProjectManagementSystem.Services
         }
 
         /// <summary>
-        /// This method receives subtaskId and statusId, finds the Status and the Subtask and change the Subtask's
-        /// current status with the new selected one.
+        /// Change the Subtask's status.
         /// </summary>
+        /// <param name="statusId"></param>
+        /// <param name="subtaskId"></param>
+        /// <returns>Change the Status of the Subtask</returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task ChangeStatusAsync(int statusId, int subtaskId)
         {
             var subtask = await context.Subtasks
@@ -191,9 +209,7 @@ namespace ProjectManagementSystem.Services
             await context.SaveChangesAsync();
         }
 
-        /// <summary>
-        /// This method receives subtaskId, finds the Subtask in DB and deletes it.
-        /// </summary>
+        
         public async Task DeleteSubtaskAsync(int subtaskId)
         {
             var subtask = await context.Subtasks.FirstOrDefaultAsync(s => s.Id == subtaskId);
@@ -208,9 +224,7 @@ namespace ProjectManagementSystem.Services
 
         }
 
-        /// <summary>
-        /// This method receives subtaskId, finds the Subtask and loads it's data as EditSubtaskViewModel.
-        /// </summary>
+
         public async Task<EditSubtaskViewModel> GetSubtaskEditInfoAsync(int subtaskId)
         {
             var subtask = await context.Subtasks
@@ -232,9 +246,7 @@ namespace ProjectManagementSystem.Services
             };
         }
 
-        /// <summary>
-        /// This method receives subtaskId and data as EditSubtaskViewModel, finds the Subtask and updates its info according to the EditSubtaskViewModel's data.
-        /// </summary>
+
         public async Task EditSubtaskAsync(EditSubtaskViewModel model, int subtaskId)
         {
 
@@ -262,9 +274,7 @@ namespace ProjectManagementSystem.Services
             await context.SaveChangesAsync();
         }
 
-        /// <summary>
-        /// This method receives subtaskId, finds the Subtask and returns the related Project's ProjectManager. 
-        /// </summary>
+
         public async Task<ApplicationUser> GetProjectManagerAsync(int subtaskId)
         {
             var subtask = await context.Subtasks
