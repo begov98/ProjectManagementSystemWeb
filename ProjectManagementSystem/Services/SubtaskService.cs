@@ -51,7 +51,7 @@ namespace ProjectManagementSystem.Services
         /// <returns>All ApplicationUsers in role "Specialist" as IEnumerable</returns>
         public async Task<IEnumerable<ApplicationUser>> GetEmployeesAsync()
         {
-                return await userManager.GetUsersInRoleAsync("Specialist");
+                return await userManager!.GetUsersInRoleAsync("Specialist");
 
         }
 
@@ -142,7 +142,7 @@ namespace ProjectManagementSystem.Services
 
            if (subtask == null)
             {
-                throw new ArgumentException("Task not found... :("); //TODO: To implement some error message/page!
+                throw new ArgumentException("Task not found... :(");
             }
 
             return new SubtaskViewModel()
@@ -151,12 +151,12 @@ namespace ProjectManagementSystem.Services
                 Name = subtask.Name,
                 Description = subtask.Description,
                 StatusId = subtask.StatusId,
-                Status = subtask?.Status?.StatusTitle,
-                ProjectId = subtask.ProjectId,
-                Project = subtask?.Project?.Name,
-                CategoryId = subtask.CategoryId,
-                Category = subtask?.Category?.Name,
-                SpecialistsIds = subtask?.ApplicationUsersSubtasks?.Select(u => u.ApplicationUserId)
+                Status = subtask?.Status?.StatusTitle!,
+                ProjectId = subtask!.ProjectId,
+                Project = subtask?.Project?.Name!,
+                CategoryId = subtask!.CategoryId,
+                Category = subtask?.Category?.Name!,
+                SpecialistsIds = subtask?.ApplicationUsersSubtasks?.Select(u => u.ApplicationUserId)!
             };
         }
 
@@ -249,7 +249,7 @@ namespace ProjectManagementSystem.Services
 
             if (subtask == null)
             {
-                throw new ArgumentException("Project not found... :("); //TODO: To implement some error message/page!
+                throw new ArgumentException("Project not found... :(");
 
             }
             return new EditSubtaskViewModel()
@@ -306,10 +306,15 @@ namespace ProjectManagementSystem.Services
                 .FirstOrDefaultAsync(s => s.Id == subtaskId);
 
             var project = await context.Projects
-                .FirstOrDefaultAsync(p => p.Id == subtask.ProjectId);
+                .FirstOrDefaultAsync(p => p.Id == subtask!.ProjectId);
 
             var projectManager = await context.Users
-                .FirstOrDefaultAsync(u => u.Id == project.ProjectManagerId);
+                .FirstOrDefaultAsync(u => u.Id == project!.ProjectManagerId);
+
+            if (projectManager == null)
+            {
+                throw new ArgumentException("ProjectManager not found...");
+            }
 
             return projectManager;
         }

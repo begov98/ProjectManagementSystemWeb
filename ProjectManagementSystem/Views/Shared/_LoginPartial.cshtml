@@ -14,9 +14,9 @@
             }
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><strong>Hello @User.Identity.Name </strong></a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><strong>Hello @User?.Identity?.Name </strong></a>
         </li>
-        @if (User.IsInRole("Manager") || User.IsInRole("ProjectManager"))
+        @if (User!.IsInRole("Manager") || User.IsInRole("ProjectManager"))
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-controller="Projects" asp-action="Add">Add project</a>

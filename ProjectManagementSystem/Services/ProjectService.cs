@@ -55,15 +55,13 @@ namespace ProjectManagementSystem.Services
                 .Include(p => p.ProjectManager)
                 .ToListAsync();
 
-
-
             return entities.Select(p => new ProjectViewModel()
             {
                 Id = p.Id,
                 Name = p.Name,
                 Description = p.Description,
-                ProjectManager = p?.ProjectManager?.Name,
-                ProjectManagerId = p.ProjectManagerId,
+                ProjectManager = p?.ProjectManager?.Name!,
+                ProjectManagerId = p!.ProjectManagerId,
                 Picture = p.Picture
             });
 
@@ -94,7 +92,7 @@ namespace ProjectManagementSystem.Services
 
             if (project == null)
             {
-                throw new ArgumentException("Project not found... :("); //TODO: To implement some error message/page!
+                throw new ArgumentException("Project not found... :(");
 
             }
 
@@ -104,8 +102,8 @@ namespace ProjectManagementSystem.Services
                 Name = project.Name,
                 Description = project.Description,
                 ProjectManagerId = project.ProjectManagerId,
-                ProjectManager = project?.ProjectManager?.Name,
-                Picture = project.Picture
+                ProjectManager = project?.ProjectManager?.Name!,
+                Picture = project!.Picture
             };
         }
 
@@ -126,9 +124,9 @@ namespace ProjectManagementSystem.Services
                 Name = t.Name,
                 Description = t.Description,
                 StatusId = t.StatusId,
-                Status = t?.Status?.StatusTitle,
-                ProjectId = t.ProjectId,
-                SpecialistsIds = t?.ApplicationUsersSubtasks?.Select(u => u.ApplicationUserId)
+                Status = t?.Status?.StatusTitle!,
+                ProjectId = t!.ProjectId,
+                SpecialistsIds = t?.ApplicationUsersSubtasks?.Select(u => u.ApplicationUserId)!
             });
         }
 
@@ -165,7 +163,7 @@ namespace ProjectManagementSystem.Services
 
             if (project == null)
             {
-                throw new ArgumentException("Project not found... :("); //TODO: To implement some error message/page!
+                throw new ArgumentException("Project not found... :(");
 
             }
             var pmanagers = await GetProjectManagersAsync();
