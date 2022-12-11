@@ -24,4 +24,7 @@ This role shall be for the Project managers who will manage the Projects.
 
 ## Notes:
 TODOs:
+
 -> Unit tests.
+
+-> Home page design.
