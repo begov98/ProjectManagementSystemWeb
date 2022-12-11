@@ -18,10 +18,12 @@ namespace ProjectManagementSystem.Services
             userManager = _userManager;
 
         }
+
         /// <summary>
-        /// This method generates user comment in the opened "Task" page.
-        /// Receives fulfilled CommentViewModel from the comment form in Subtask/Details.cshtml and create new record in the database.
+        /// Generates user comment in the opened "Task" page.
         /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Adds new comment</returns>
         public async Task AddCommentAsync(CommentViewModel model)
         {
 
@@ -39,8 +41,9 @@ namespace ProjectManagementSystem.Services
         }
 
         /// <summary>
-        /// This method returns all comments from the database as <IEnumerable>
+        /// Gets all comments from the DB
         /// </summary>
+        /// <returns>All comments from the database as <IEnumerable></returns>
         public async Task<IEnumerable<CommentViewModel>> GetCommentsAsync()
         {
 
@@ -61,8 +64,10 @@ namespace ProjectManagementSystem.Services
         }
 
         /// <summary>
-        /// This method receives the opened "Task" page ID and returns only it's comments as <IEnumerable>
+        /// Get and load the comments in the opened "Task" page.
         /// </summary>
+        /// <param name="subtaskId"></param>
+        /// <returns>The comments in the "Task" page.</returns>
         public async Task<IEnumerable<CommentViewModel>> GetCommentsByIdAsync(int subtaskId)
         {
 
@@ -84,8 +89,11 @@ namespace ProjectManagementSystem.Services
         }
 
         /// <summary>
-        /// This method receives commentId, finds the Comment in DB and deletes it.
+        /// Deletes comment entity from DB
         /// </summary>
+        /// <param name="commentId"></param>
+        /// <returns>Finds the Comment in DB with ID = commentId and deletes it.</returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task DeleteComment(int commentId)
         {
             var comment = await context.Comments.FirstOrDefaultAsync(c => c.Id == commentId);

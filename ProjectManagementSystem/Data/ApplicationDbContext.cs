@@ -92,7 +92,7 @@ namespace ProjectManagementSystem.Data
             string SPECIALIST_ROLE_ID = Guid.NewGuid().ToString();
 
 
-            //seed admin role
+            //seed roles
             builder.Entity<IdentityRole>().HasData(new IdentityRole
             {
                 Name = "Manager",

@@ -10,13 +10,18 @@ namespace ProjectManagementSystem.Services
     public class SubtaskService : ISubtaskService
     {
         private readonly ApplicationDbContext context;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly UserManager<ApplicationUser>? userManager;
 
         public SubtaskService(ApplicationDbContext _context, UserManager<ApplicationUser> _userManager) 
         {
             context = _context;
             userManager = _userManager;
 
+        }
+
+        public SubtaskService(ApplicationDbContext _context)
+        {
+            context = _context;
         }
 
         /// <summary>
@@ -209,7 +214,12 @@ namespace ProjectManagementSystem.Services
             await context.SaveChangesAsync();
         }
 
-        
+        /// <summary>
+        /// Finds subtask by id and deletes it.
+        /// </summary>
+        /// <param name="subtaskId"></param>
+        /// <returns>Delete subtask entity with ID=subtaskId</returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task DeleteSubtaskAsync(int subtaskId)
         {
             var subtask = await context.Subtasks.FirstOrDefaultAsync(s => s.Id == subtaskId);
@@ -224,7 +234,12 @@ namespace ProjectManagementSystem.Services
 
         }
 
-
+        /// <summary>
+        /// Get the subtask information from DB and returns it as EditSubtaskViewModel
+        /// </summary>
+        /// <param name="subtaskId"></param>
+        /// <returns>EditSubtaskViewModel fulfilled with Subtask entity's data</returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<EditSubtaskViewModel> GetSubtaskEditInfoAsync(int subtaskId)
         {
             var subtask = await context.Subtasks
@@ -246,7 +261,13 @@ namespace ProjectManagementSystem.Services
             };
         }
 
-
+        /// <summary>
+        /// Edit the information in entity based on the changes in EditSubtaskViewModel form.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="subtaskId"></param>
+        /// <returns>Edit and save Subtask entity's data.</returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task EditSubtaskAsync(EditSubtaskViewModel model, int subtaskId)
         {
 
@@ -274,7 +295,11 @@ namespace ProjectManagementSystem.Services
             await context.SaveChangesAsync();
         }
 
-
+        /// <summary>
+        /// Finds the project manager of the subtask's project.
+        /// </summary>
+        /// <param name="subtaskId"></param>
+        /// <returns>The project manager as ApplicationUser</returns>
         public async Task<ApplicationUser> GetProjectManagerAsync(int subtaskId)
         {
             var subtask = await context.Subtasks

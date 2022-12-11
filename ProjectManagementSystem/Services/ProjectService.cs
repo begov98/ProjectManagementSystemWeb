@@ -23,7 +23,11 @@ namespace ProjectManagementSystem.Services
             userManager = _userManager;
         }
 
-
+        /// <summary>
+        /// Adds new Project entity in the database. The data is passed by the form in Projects/Add.cshtml
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Add Project entity in the DB</returns>
         public async Task AddProjectAsync(AddProjectViewModel model)
         {
 
@@ -41,7 +45,10 @@ namespace ProjectManagementSystem.Services
             await context.SaveChangesAsync();
         }
 
-
+        /// <summary>
+        /// Gets all projects.
+        /// </summary>
+        /// <returns>All projects from the DB in <IEnumerable> collection. </returns>
         public async Task<IEnumerable<ProjectViewModel>> GetAllAsync()
         {
             var entities = await context.Projects
@@ -62,14 +69,22 @@ namespace ProjectManagementSystem.Services
 
         }
 
-
+        /// <summary>
+        /// Gets all ApplicationUsers in role "ProjectManager"
+        /// </summary>
+        /// <returns>All ApplicationUsers in role "ProjectManager" in <IEnumerable> collection.</returns>
         public async Task<IEnumerable<ApplicationUser>> GetProjectManagersAsync()
         {
             return await userManager.GetUsersInRoleAsync("ProjectManager");
 
         }
 
-
+        /// <summary>
+        /// Finds project by received projectId.
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns>Finded project's data as ProjectViewModel</returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<ProjectViewModel> GetProjectAsync(int projectId)
         {
 
@@ -94,7 +109,10 @@ namespace ProjectManagementSystem.Services
             };
         }
 
-
+        /// <summary>
+        /// Gets all tasks information as IEnumerable in order to display it in Project's page.
+        /// </summary>
+        /// <returns>IEnumerable collection of all task's data as SubtaskViewModel.</returns>
         public async Task<IEnumerable<SubtaskViewModel>>GetTasksAsync()
         {
             var entities = await context.Subtasks
@@ -112,12 +130,14 @@ namespace ProjectManagementSystem.Services
                 ProjectId = t.ProjectId,
                 SpecialistsIds = t?.ApplicationUsersSubtasks?.Select(u => u.ApplicationUserId)
             });
-
-            //var subtasks = await context.Subtasks.ToListAsync();
-            //return subtasks;
         }
 
-
+        /// <summary>
+        /// Finds project by id and deletes it.
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns>Delete project entity with ID=projectId</returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task DeleteProjectAsync(int projectId)
         {
             var project = await context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
@@ -132,7 +152,12 @@ namespace ProjectManagementSystem.Services
 
         }
 
-
+        /// <summary>
+        /// Get the project information from DB and returns it as EditProjectViewModel
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns>EditProjectViewModel fulfilled with Project entity's data</returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<EditProjectViewModel> GetProjectEditInfoAsync(int projectId)
         {
             var project = await context.Projects
@@ -155,7 +180,13 @@ namespace ProjectManagementSystem.Services
             };
         }
 
-
+        /// <summary>
+        /// Edit the information in entity based on the changes in EditProjectViewModel form.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="projectId"></param>
+        /// <returns>Edit and save Project entity's data.</returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task EditProjectAsync(EditProjectViewModel model, int projectId)
         {
 
