@@ -16,15 +16,18 @@ namespace ProjectManagementSystem.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public UserController(
             UserManager<ApplicationUser> _userManager,
             SignInManager<ApplicationUser> _signInManager,
-            RoleManager<IdentityRole> _roleManager)
+            RoleManager<IdentityRole> _roleManager,
+            IWebHostEnvironment _webHostEnvironment)
         {
             userManager = _userManager;
             signInManager = _signInManager;
             roleManager = _roleManager;
+            webHostEnvironment = _webHostEnvironment;
 
         }
 
@@ -52,14 +55,25 @@ namespace ProjectManagementSystem.Controllers
                 return View(model);
             }
 
-
+            //Default profile picture
+            string webRootPart = webHostEnvironment.ContentRootPath;
+            string path = Path.Combine((webRootPart + @"wwwroot\Images\default_profilePicture.png"));
+            System.Drawing.Image img = System.Drawing.Image.FromFile(path)!;
+            byte[] bytes;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                bytes = ms.ToArray();
+            }
+            var profilePicture = bytes;
             var user = new ApplicationUser()
             {
                 Email = model.Email,
                 UserName = model.UserName,
                 EmailConfirmed = true,
                 Name = model.Name,
-                Surname = model.Surname
+                Surname = model.Surname,
+                ProfilePicture = profilePicture
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
