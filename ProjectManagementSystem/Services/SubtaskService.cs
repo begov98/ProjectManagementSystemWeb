@@ -100,7 +100,7 @@ namespace ProjectManagementSystem.Services
         /// <summary>
         /// Gets all Projects from the database. 
         /// </summary>
-        /// <returns>Returns all Projects as IEnumerable</returns>
+        /// <returns>Returns all Projects to List</returns>
         public async Task<IEnumerable<Project>> GetProjectsAsync()
         {
             return await context.Projects.ToListAsync();
