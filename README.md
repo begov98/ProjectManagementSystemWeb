@@ -2,9 +2,8 @@
 
 ## Welcome
 Hi there! :)
-This is my first ASP.NET MVC project. It is a simple application for managing projects and their subtasks. 
 
-**P.s. still in process...**
+This is my first ASP.NET MVC project. It is a simple application for managing projects and their subtasks. 
 
 Best regards, 
 P. Begov
@@ -12,9 +11,14 @@ P. Begov
 ## Get started
 
 You just shall load last migration and create the database. (the uploaded connection string in appsetings.json will create database named "ProjectManagementSystem"
-To login into the default admin user you shall use: Username: *pmsadmin* Password: *Admin123*
+To login into the default admin user you shall use:
 
-The default roles are:
+Username: **pmsadmin** 
+
+Password: **Admin123**
+
+**The default roles are:**
+
 (Manager) -> Full access to everything. Only with this role you are able to create new Project. Only he can re-assign Project managers from/to Projects. Can edit/delete the projects.
 This role shall be for the Manager/Head of the department. :)
 
