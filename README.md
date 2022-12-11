@@ -3,7 +3,7 @@
 ## Welcome
 Hi there! :)
 
-This is my first ASP.NET MVC project. It is a simple application for managing projects and their subtasks. 
+This is my first functional ASP.NET MVC project and actually my coursework project for the C# Web development course in SoftUni. It is a simple application for managing projects and their subtasks. 
 
 Best regards, 
 P. Begov
