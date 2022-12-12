@@ -8,7 +8,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item" style="align-self: center;">
-            @if (UserManager.GetUserAsync(User).Result.ProfilePicture != null)
+            @if (UserManager.GetUserAsync(User).Result.ProfilePicture != null) @*If you receive "System.NullRefferenceException" here, please crear your browser cache and cookies... *@
             {
                 <img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfilePicture))">
             }
