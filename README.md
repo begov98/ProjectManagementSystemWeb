@@ -10,7 +10,7 @@ P. Begov
 
 ## Get started
 
-You just shall load last migration and create the database. (the uploaded connection string in appsetings.json will create database named "ProjectManagementSystem"
+You just shall create the database. (the uploaded connection string in appsetings.json will create database named "ProjectManagementSystem"
 To login into the default admin user you shall use:
 
 Username: **pmsadmin** 
@@ -30,7 +30,5 @@ This role shall be for the Project managers who will manage the Projects.
 
 ## Notes:
 TODOs:
-
--> Unit tests.
 
 -> Home page design.
