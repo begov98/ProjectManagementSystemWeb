@@ -23,6 +23,11 @@ namespace ProjectManagementSystem.Services
             userManager = _userManager;
         }
 
+        public ProjectService(ApplicationDbContext _context)
+        {
+            context = _context;
+        }
+
         /// <summary>
         /// Adds new Project entity in the database. The data is passed by the form in Projects/Add.cshtml
         /// </summary>
@@ -30,9 +35,6 @@ namespace ProjectManagementSystem.Services
         /// <returns>Add Project entity in the DB</returns>
         public async Task AddProjectAsync(AddProjectViewModel model)
         {
-
-
-
             var entity = new Project()
             {
                 Name = model.Name,
@@ -40,6 +42,10 @@ namespace ProjectManagementSystem.Services
                 ProjectManagerId = model.ProjectManagerId,
                 Picture = model.Picture
             };
+            if (entity == null)
+            {
+                throw new ArgumentException("Project cannot be created. Please try again later! If the problem persist, contact your service provider!");
+            }
 
             await context.Projects.AddAsync(entity);
             await context.SaveChangesAsync();
