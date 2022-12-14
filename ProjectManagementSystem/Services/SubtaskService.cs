@@ -41,6 +41,11 @@ namespace ProjectManagementSystem.Services
                 
             };
 
+            if (entity == null)
+            {
+                throw new ArgumentException("Subtask cannot be created. Please try again later! If the problem persist, contact your service provider!");
+            }
+
             await context.Subtasks.AddAsync(entity);
             await context.SaveChangesAsync();
         }
@@ -226,7 +231,7 @@ namespace ProjectManagementSystem.Services
 
             if (subtask == null)
             {
-                throw new ArgumentException("Project not found");
+                throw new ArgumentException("Invalid subtask ID!");
             }
 
             context.Remove(subtask);
@@ -249,7 +254,7 @@ namespace ProjectManagementSystem.Services
 
             if (subtask == null)
             {
-                throw new ArgumentException("Project not found... :(");
+                throw new ArgumentException("Task not found... :(");
 
             }
             return new EditSubtaskViewModel()
@@ -275,7 +280,7 @@ namespace ProjectManagementSystem.Services
 
             if (subtask == null)
             {
-                throw new ArgumentException("Project not found");
+                throw new ArgumentException("Invalid subtask ID!");
             }
 
             if (model.Name != subtask.Name)
